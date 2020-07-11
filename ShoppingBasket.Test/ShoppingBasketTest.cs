@@ -1,0 +1,86 @@
+using NUnit.Framework;
+using ShoppingBasket.DTO;
+using System;
+using System.Collections.Generic;
+
+namespace ShoppingBasket.Test
+{
+    public class ShoppingBasketTest
+    {
+        [Test]
+        public void Test_AddProduct_Scenario1()
+        {
+            List<ProductDTO> currentBasketProducts = new List<ProductDTO>();
+            currentBasketProducts.Add(new ProductDTO { Id = 1, Name = "Butter", Price = 0.8M });
+            currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
+            currentBasketProducts.Add(new ProductDTO { Id = 3, Name = "Bread", Price = 1M });
+
+            int newProductId = 0;
+            decimal expected = 2.95M;
+
+            BasketDTO basketDTO = ShoppingBasketService.AddProduct(currentBasketProducts, newProductId);
+
+            Assert.AreEqual(expected, basketDTO.TotalCost);
+        }
+
+        [Test]
+        public void Test_AddProduct_Scenario2()
+        {
+            List<ProductDTO> currentBasketProducts = new List<ProductDTO>();
+            currentBasketProducts.Add(new ProductDTO { Id = 1, Name = "Butter", Price = 0.8M });
+            currentBasketProducts.Add(new ProductDTO { Id = 1, Name = "Butter", Price = 0.8M });
+            currentBasketProducts.Add(new ProductDTO { Id = 3, Name = "Bread", Price = 1M });
+            currentBasketProducts.Add(new ProductDTO { Id = 3, Name = "Bread", Price = 1M });
+
+            int newProductId = 0;
+            decimal expected = 3.1M;
+
+            BasketDTO basketDTO = ShoppingBasketService.AddProduct(currentBasketProducts, newProductId);
+
+            Assert.AreEqual(expected, basketDTO.TotalCost);
+        }
+
+        [Test]
+        public void Test_AddProduct_Scenario3()
+        {
+            List<ProductDTO> currentBasketProducts = new List<ProductDTO>();
+            currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
+            currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
+            currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
+            currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
+
+            int newProductId = 0;
+            decimal expected = 3.45M;
+
+            BasketDTO basketDTO = ShoppingBasketService.AddProduct(currentBasketProducts, newProductId);
+
+            Assert.AreEqual(expected, basketDTO.TotalCost);
+        }
+
+        [Test]
+        public void Test_AddProduct_Scenario4()
+        {
+            List<ProductDTO> currentBasketProducts = new List<ProductDTO>();
+            currentBasketProducts.Add(new ProductDTO { Id = 1, Name = "Butter", Price = 0.8M });
+            currentBasketProducts.Add(new ProductDTO { Id = 1, Name = "Butter", Price = 0.8M });
+            currentBasketProducts.Add(new ProductDTO { Id = 3, Name = "Bread", Price = 1M });
+
+            currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
+            currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
+            currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
+            currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
+
+            currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
+            currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
+            currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
+            currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
+
+            int newProductId = 0;
+            decimal expected = 9M;
+
+            BasketDTO basketDTO = ShoppingBasketService.AddProduct(currentBasketProducts, newProductId);
+
+            Assert.AreEqual(expected, basketDTO.TotalCost);
+        }
+    }
+}

@@ -10,25 +10,25 @@ namespace ShoppingBasket.DTO
 {
     public class BasketDTO
     {
-        public List<ProductDTO> currentBasketProducts;
+        private List<ProductDTO> _currentBasketProducts;
 
         public BasketDTO(List<ProductDTO> currentBasketProducts)
         {
-            this.currentBasketProducts = currentBasketProducts;
+            this._currentBasketProducts = currentBasketProducts;
         }
 
         public decimal TotalCost
         {
             get
             {
-                decimal totalSum = currentBasketProducts.Select(x => x.Price).Sum();
+                decimal totalSum = _currentBasketProducts.Select(x => x.Price).Sum();
 
-                List<int> productIdList = currentBasketProducts.Select(x => x.Id).ToList();
+                List<int> productIdList = _currentBasketProducts.Select(x => x.Id).ToList();
                 DiscountDTO discountDTO = DiscountHelper.CalculateDiscount(productIdList);
 
                 decimal totalCost = totalSum - discountDTO.TotalDiscount;
 
-                LogHelper.LogBasketDetails(currentBasketProducts, discountDTO, totalCost);
+                LogHelper.LogBasketDetails(_currentBasketProducts, discountDTO, totalCost);
 
                 return totalCost;
             }

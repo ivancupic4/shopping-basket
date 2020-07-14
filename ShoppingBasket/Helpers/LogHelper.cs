@@ -8,8 +8,13 @@ namespace ShoppingBasket.Helpers
 {
     public static class LogHelper
     {
-        // basket details logged to debug output window in Visual Studio
-        // run selected tests as "debug" or with Ctrl+R, Ctrl+T
+        /// <summary>
+        /// Basket details logged to debug output window in Visual Studio
+        /// Run selected tests as "debug" or with Ctrl+R, Ctrl+T
+        /// </summary>
+        /// <param name="currentBasketProducts">Products currently in the basket</param>
+        /// <param name="discountDTO">An object containing information about applied discounts</param>
+        /// <param name="totalCost">Calculated total cost of all products with applied discounts</param>
         public static void LogBasketDetails(List<ProductDTO> currentBasketProducts, DiscountDTO discountDTO, decimal totalCost)
         {
             System.Diagnostics.Debug.WriteLine("\n\nShopping basket \n");

@@ -30,7 +30,10 @@ namespace ShoppingBasket
             return allProductDTOList.Where(x => basketProductsIdList.Contains(x.Id)).ToList();
         }
 
-        // loads all products, simulating a database or similar data source
+        /// <summary>
+        /// Loads all products, simulating a database or similar data source
+        /// </summary>
+        /// <returns>Loaded list od ProductDTO objects</returns>
         private static List<ProductDTO> LoadProducts()
         {
             List<ProductDTO> allProductDTOList = new List<ProductDTO>();

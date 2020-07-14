@@ -45,7 +45,7 @@ namespace ShoppingBasket.Helpers
                     decimal amountToBeDiscounted = bread.Price * breadDiscount;
 
                     // fill DiscountItemDTOList for logging
-                    discountDTO.DiscountItemDTOList.Add(new DiscountItemDTO(bread.Name, bread.Price, amountToBeDiscounted));
+                    discountDTO.DiscountItemDTOList.Add(new DiscountItemDTO(bread.Name, amountToBeDiscounted));
                     discountDTO.TotalDiscount += (bread.Price - discountedPrice);
 
                     breadCount--;
@@ -65,7 +65,7 @@ namespace ShoppingBasket.Helpers
                 decimal amountToBeDiscounted = milk.Price * milkDiscount;
 
                 // fill DiscountItemDTOList for logging
-                discountDTO.DiscountItemDTOList.Add(new DiscountItemDTO(milk.Name, milk.Price, amountToBeDiscounted));
+                discountDTO.DiscountItemDTOList.Add(new DiscountItemDTO(milk.Name, amountToBeDiscounted));
                 discountDTO.TotalDiscount += (milk.Price - discountedPrice);
             }
         }

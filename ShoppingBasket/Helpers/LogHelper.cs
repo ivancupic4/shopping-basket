@@ -10,7 +10,7 @@ namespace ShoppingBasket.Helpers
     {
         /// <summary>
         /// Basket details logged to debug output window in Visual Studio
-        /// Run selected tests as "debug" or with Ctrl+R, Ctrl+T
+        /// Run selected tests in debug mode (right click on a test -> Debug) to print to console window
         /// </summary>
         /// <param name="currentBasketProducts">Products currently in the basket</param>
         /// <param name="discountDTO">An object containing information about applied discounts</param>
@@ -34,6 +34,10 @@ namespace ShoppingBasket.Helpers
             foreach (var discountItemDTO in discountDTO.DiscountItemDTOList)
             {
                 System.Diagnostics.Debug.WriteLine(discountItemDTO.Name + "\t" + discountItemDTO.Discount.ToString("F"));
+            }
+            if (discountDTO.DiscountItemDTOList.Count == 0)
+            {
+                System.Diagnostics.Debug.WriteLine("-\t\t-");
             }
 
             System.Diagnostics.Debug.WriteLine("Total discount: " + discountDTO.TotalDiscount.ToString("F") + "\n");

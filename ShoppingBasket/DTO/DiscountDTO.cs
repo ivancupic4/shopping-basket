@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace ShoppingBasket.DTO
 {
@@ -10,6 +11,13 @@ namespace ShoppingBasket.DTO
         }
 
         public List<DiscountItemDTO> DiscountItemDTOList { get; set; }
-        public decimal TotalDiscount { get; set; }
+
+        public decimal TotalDiscount
+        {
+            get
+            {
+                return DiscountItemDTOList.Select(x => x.Discount).Sum();
+            }
+        }
     }
 }

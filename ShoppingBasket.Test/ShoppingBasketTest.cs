@@ -1,5 +1,7 @@
 using NUnit.Framework;
 using ShoppingBasket.DTO;
+using ShoppingBasket.Enums;
+using ShoppingBasket.Helpers;
 using System;
 using System.Collections.Generic;
 
@@ -47,9 +49,10 @@ namespace ShoppingBasket.Test
             currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
             currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
             currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
-            currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
+            // this line is commented out to try if adding milk as newProductId works
+            //currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
 
-            int newProductId = 0;
+            int newProductId = 2;
             decimal expected = 3.45M;
 
             BasketDTO basketDTO = ShoppingBasketService.AddProduct(currentBasketProducts, newProductId);
@@ -81,6 +84,71 @@ namespace ShoppingBasket.Test
             BasketDTO basketDTO = ShoppingBasketService.AddProduct(currentBasketProducts, newProductId);
 
             Assert.AreEqual(expected, basketDTO.TotalCost);
+        }
+
+        [Test]
+        public void Test_AddProduct_Scenario5()
+        {
+            List<ProductDTO> currentBasketProducts = new List<ProductDTO>();
+
+            int newProductId = 0;
+            decimal expected = 0M;
+
+            BasketDTO basketDTO = ShoppingBasketService.AddProduct(currentBasketProducts, newProductId);
+
+            Assert.AreEqual(expected, basketDTO.TotalCost);
+        }
+
+        [Test]
+        public void Test_AddProduct_Scenario6()
+        {
+            List<ProductDTO> currentBasketProducts = new List<ProductDTO>();
+
+            int newProductId = 2;
+            decimal expected = 1.15M;
+
+            BasketDTO basketDTO = ShoppingBasketService.AddProduct(currentBasketProducts, newProductId);
+
+            Assert.AreEqual(expected, basketDTO.TotalCost);
+        }
+
+        [Test]
+        public void Test_CalculateDiscount_Scenario1()
+        {
+            List<int> currentBasketProducts = new List<int>();
+            currentBasketProducts.Add((int)ProductEnum.Butter);
+            currentBasketProducts.Add((int)ProductEnum.Butter);
+            currentBasketProducts.Add((int)ProductEnum.Butter);
+            currentBasketProducts.Add((int)ProductEnum.Milk);
+            currentBasketProducts.Add((int)ProductEnum.Bread);
+            currentBasketProducts.Add((int)ProductEnum.Bread);
+
+            decimal expected = 0.5M;
+
+            DiscountDTO discountDTO = DiscountHelper.CalculateDiscount(currentBasketProducts);
+
+            Assert.AreEqual(expected, discountDTO.TotalDiscount);
+        }
+
+        [Test]
+        public void Test_CalculateDiscount_Scenario2()
+        {
+            List<int> currentBasketProducts = new List<int>();
+            currentBasketProducts.Add((int)ProductEnum.Butter);
+            currentBasketProducts.Add((int)ProductEnum.Butter);
+            currentBasketProducts.Add((int)ProductEnum.Butter);
+            currentBasketProducts.Add((int)ProductEnum.Butter);
+            currentBasketProducts.Add((int)ProductEnum.Milk);
+            currentBasketProducts.Add((int)ProductEnum.Milk);
+            currentBasketProducts.Add((int)ProductEnum.Milk);
+            currentBasketProducts.Add((int)ProductEnum.Milk);
+            currentBasketProducts.Add((int)ProductEnum.Bread);
+
+            decimal expected = 1.65M;
+
+            DiscountDTO discountDTO = DiscountHelper.CalculateDiscount(currentBasketProducts);
+
+            Assert.AreEqual(expected, discountDTO.TotalDiscount);
         }
     }
 }

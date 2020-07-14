@@ -25,6 +25,10 @@ namespace ShoppingBasket.Helpers
             {
                 System.Diagnostics.Debug.WriteLine(productDTO.Id + "\t" + productDTO.Name + "\t" + productDTO.Price.ToString("F"));
             }
+            if (currentBasketProducts.Count == 0)
+            {
+                System.Diagnostics.Debug.WriteLine("-\t-\t\t-");
+            }
 
             decimal fullPrice = currentBasketProducts.Select(x => x.Price).Sum();
             System.Diagnostics.Debug.WriteLine("Full price: " + fullPrice.ToString("F") + "\n");

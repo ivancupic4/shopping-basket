@@ -12,7 +12,7 @@ namespace ShoppingBasket.Helpers
     {
         private static List<ProductDTO> allBasketProducts = new List<ProductDTO>();
 
-        // product discounts defined at one place
+        // product discounts defined at one place, which can also be loaded from a database
         private static decimal breadDiscount = 0.5M;
         private static decimal milkDiscount = 1M;
 
@@ -32,8 +32,8 @@ namespace ShoppingBasket.Helpers
 
         private static void CalculateBreadDiscount(List<int> basketProductsIdList, DiscountDTO discountDTO)
         {
-            int butterCount = basketProductsIdList.Where(x => x == (int)ProductEnum.Butter).Count();
-            int breadCount = basketProductsIdList.Where(x => x == (int)ProductEnum.Bread).Count();
+            int butterCount = basketProductsIdList.Count(x => x == (int)ProductEnum.Butter);
+            int breadCount = basketProductsIdList.Count(x => x == (int)ProductEnum.Bread);
             ProductDTO bread = allBasketProducts.Where(x => x.Id == (int)ProductEnum.Bread).FirstOrDefault();
 
             // for every 2 butters, do something
@@ -41,12 +41,10 @@ namespace ShoppingBasket.Helpers
             {
                 if (breadCount > 0)
                 {
-                    decimal discountedPrice = bread.Price * (1 - breadDiscount);
                     decimal amountToBeDiscounted = bread.Price * breadDiscount;
 
                     // fill DiscountItemDTOList for logging
                     discountDTO.DiscountItemDTOList.Add(new DiscountItemDTO(bread.Name, amountToBeDiscounted));
-                    discountDTO.TotalDiscount += (bread.Price - discountedPrice);
 
                     breadCount--;
                 }
@@ -55,18 +53,16 @@ namespace ShoppingBasket.Helpers
 
         private static void CalculateMilkDiscount(List<int> basketProductsIdList, DiscountDTO discountDTO)
         {
-            int milkCount = basketProductsIdList.Where(x => x == (int)ProductEnum.Milk).Count();
+            int milkCount = basketProductsIdList.Count(x => x == (int)ProductEnum.Milk);
             ProductDTO milk = allBasketProducts.Where(x => x.Id == (int)ProductEnum.Milk).FirstOrDefault();
 
             // for every 4 milks, do something
             for (int i = 4; i <= milkCount; i += 4)
             {
-                decimal discountedPrice = milk.Price * (1 - milkDiscount);
                 decimal amountToBeDiscounted = milk.Price * milkDiscount;
 
                 // fill DiscountItemDTOList for logging
                 discountDTO.DiscountItemDTOList.Add(new DiscountItemDTO(milk.Name, amountToBeDiscounted));
-                discountDTO.TotalDiscount += (milk.Price - discountedPrice);
             }
         }
     }

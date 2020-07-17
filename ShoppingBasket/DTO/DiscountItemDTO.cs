@@ -8,8 +8,8 @@ namespace ShoppingBasket.DTO
     {
         public DiscountItemDTO(string name, decimal discount)
         {
-            Name = name;
-            Discount = discount;
+            this.Name = name;
+            this.Discount = discount;
         }
 
         public string Name { get; set; }

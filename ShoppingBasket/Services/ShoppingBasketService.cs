@@ -15,7 +15,8 @@ namespace ShoppingBasket
             ProductDTO newProduct = LoadProductById(newProductId);
             if (newProduct != null) currentBasketProducts.Add(newProduct);
 
-            return new BasketDTO(currentBasketProducts);
+            BasketDTO basketDTO = new BasketDTO(currentBasketProducts);
+            return basketDTO;
         }
 
         private static ProductDTO LoadProductById(int newProductId)

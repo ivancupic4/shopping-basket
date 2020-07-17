@@ -21,7 +21,7 @@ namespace ShoppingBasket.Helpers
             // DiscountDTO to be filled with data and returned
             DiscountDTO discountDTO = new DiscountDTO();
 
-            // passing an Id list so that only products in the basket will be fetched
+            // passing an Id list so that only products in the basket will be loaded
             allBasketProducts = ShoppingBasketService.LoadProductsByIdList(basketProductsIdList);
 
             CalculateBreadDiscount(basketProductsIdList, discountDTO);
@@ -44,7 +44,8 @@ namespace ShoppingBasket.Helpers
                     decimal amountToBeDiscounted = bread.Price * breadDiscount;
 
                     // fill DiscountItemDTOList for logging
-                    discountDTO.DiscountItemDTOList.Add(new DiscountItemDTO(bread.Name, amountToBeDiscounted));
+                    DiscountItemDTO discountItemDTO = new DiscountItemDTO(bread.Name, amountToBeDiscounted);
+                    discountDTO.DiscountItemDTOList.Add(discountItemDTO);
 
                     breadCount--;
                 }
@@ -62,7 +63,8 @@ namespace ShoppingBasket.Helpers
                 decimal amountToBeDiscounted = milk.Price * milkDiscount;
 
                 // fill DiscountItemDTOList for logging
-                discountDTO.DiscountItemDTOList.Add(new DiscountItemDTO(milk.Name, amountToBeDiscounted));
+                DiscountItemDTO discountItemDTO = new DiscountItemDTO(milk.Name, amountToBeDiscounted);
+                discountDTO.DiscountItemDTOList.Add(discountItemDTO);
             }
         }
     }

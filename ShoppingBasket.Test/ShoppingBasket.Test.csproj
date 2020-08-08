@@ -13,7 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ShoppingBasket\ShoppingBasket.Library.csproj" />
+    <ProjectReference Include="..\ShoppingBasket.DAL\ShoppingBasket.DAL.csproj" />
+    <ProjectReference Include="..\ShoppingBasket\ShoppingBasket.Domain.csproj" />
   </ItemGroup>
 
 </Project>

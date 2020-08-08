@@ -8,21 +8,22 @@ using System.Threading;
 
 namespace ShoppingBasket.Helpers
 {
-    public static class DiscountHelper
+    public class DiscountHelper
     {
-        private static List<ProductDTO> allBasketProducts = new List<ProductDTO>();
+        private List<ProductDTO> allBasketProducts = new List<ProductDTO>();
 
         // product discounts defined at one place, which can also be loaded from a database
         private static decimal breadDiscount = 0.5M;
         private static decimal milkDiscount = 1M;
 
-        public static DiscountDTO CalculateDiscount(List<int> basketProductsIdList)
+        public DiscountDTO CalculateDiscount(List<int> basketProductsIdList)
         {
             // DiscountDTO to be filled with data and returned
             DiscountDTO discountDTO = new DiscountDTO();
 
             // passing an Id list so that only products in the basket will be loaded
-            allBasketProducts = ShoppingBasketService.LoadProductsByIdList(basketProductsIdList);
+            ShoppingBasketService shoppingBasketService = new ShoppingBasketService();
+            allBasketProducts = shoppingBasketService.LoadProductsByIdList(basketProductsIdList);
 
             CalculateBreadDiscount(basketProductsIdList, discountDTO);
             CalculateMilkDiscount(basketProductsIdList, discountDTO);
@@ -30,7 +31,7 @@ namespace ShoppingBasket.Helpers
             return discountDTO;
         }
 
-        private static void CalculateBreadDiscount(List<int> basketProductsIdList, DiscountDTO discountDTO)
+        private void CalculateBreadDiscount(List<int> basketProductsIdList, DiscountDTO discountDTO)
         {
             int butterCount = basketProductsIdList.Count(x => x == (int)ProductEnum.Butter);
             int breadCount = basketProductsIdList.Count(x => x == (int)ProductEnum.Bread);
@@ -52,7 +53,7 @@ namespace ShoppingBasket.Helpers
             }
         }
 
-        private static void CalculateMilkDiscount(List<int> basketProductsIdList, DiscountDTO discountDTO)
+        private void CalculateMilkDiscount(List<int> basketProductsIdList, DiscountDTO discountDTO)
         {
             int milkCount = basketProductsIdList.Count(x => x == (int)ProductEnum.Milk);
             ProductDTO milk = allBasketProducts.Where(x => x.Id == (int)ProductEnum.Milk).FirstOrDefault();

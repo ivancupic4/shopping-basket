@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using ShoppingBasket.Helpers;
+﻿using ShoppingBasket.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,11 +25,14 @@ namespace ShoppingBasket.DTO
                 decimal totalSum = CurrentBasketProducts.Select(x => x.Price).Sum();
 
                 List<int> productIdList = CurrentBasketProducts.Select(x => x.Id).ToList();
-                this.DiscountDTO = DiscountHelper.CalculateDiscount(productIdList);
+
+                DiscountHelper discountHelper = new DiscountHelper();
+                this.DiscountDTO = discountHelper.CalculateDiscount(productIdList);
 
                 decimal totalCost = totalSum - this.DiscountDTO.TotalDiscount;
 
-                LogHelper.LogBasketDetails(CurrentBasketProducts, this.DiscountDTO, totalCost);
+                LogHelper logHelper = new LogHelper();
+                logHelper.LogBasketDetails(CurrentBasketProducts, this.DiscountDTO, totalCost);
 
                 return totalCost;
             }

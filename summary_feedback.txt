@@ -1,0 +1,19 @@
+
+- klase koje implementiraju logiku NE SMIJU biti static
+	
+- ako želimo napraviti novu implementaciju Loggera, mora se mijenjati BasketDTO, što je loše
+	- ovo treba biti generalizirano, dakle da se uvijek poziva općeniti servis 
+	  koji onda odlučuje koja implementacija loggera će se koristiti
+	
+- JSON se kreira i poziva u servisu, što se ne smije, nego treba se zvati data layer 
+  koji onda odlučuje o načinu dohvata podataka itd
+	- dodatno, lokacija file-a je hardkodirana u Service, što mora biti dohvaćeno iz parametra u app.config-u
+	
+- u DTO-ovima ne smije biti poziva računanja ni logike jer je to samo Data Transfer Object, znači nazvati ga BO
+  ili premjestiti logiku na drugo mjesto
+
+- kod dodavanja proizvoda, treba omogućiti dodavanje više komada, a ne ograničiti samo na jedan
+
+- popusti su hardkodirani, treba to više generički smisliti
+  "ako x produkta a, produkt b je jeftiniji y posto"
+

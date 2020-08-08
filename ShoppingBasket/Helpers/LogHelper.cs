@@ -6,16 +6,16 @@ using System.Text;
 
 namespace ShoppingBasket.Helpers
 {
-    public static class LogHelper
+    public class LogHelper
     {
-        /// <summary>
+        /// <summary> 
         /// Basket details logged to debug output window in Visual Studio
         /// Run selected tests in debug mode (right click on a test -> Debug) to print to console window
         /// </summary>
         /// <param name="currentBasketProducts">Products currently in the basket</param>
         /// <param name="discountDTO">An object containing information about applied discounts</param>
         /// <param name="totalCost">Calculated total cost of all products with applied discounts</param>
-        public static void LogBasketDetails(List<ProductDTO> currentBasketProducts, DiscountDTO discountDTO, decimal totalCost)
+        public void LogBasketDetails(List<ProductDTO> currentBasketProducts, DiscountDTO discountDTO, decimal totalCost)
         {
             System.Diagnostics.Debug.WriteLine("\n\nShopping basket \n");
 

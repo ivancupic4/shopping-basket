@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using ShoppingBasket.DAL;
+using ShoppingBasket.DAL.Models;
+using ShoppingBasket.Domain.Builders;
 using ShoppingBasket.DTO;
 using System;
 using System.Collections.Generic;
@@ -8,44 +10,46 @@ using System.Net.Http.Headers;
 
 namespace ShoppingBasket
 {
-    public static class ShoppingBasketService
+    public class ShoppingBasketService
     {
-        public static BasketDTO AddProduct(List<ProductDTO> currentBasketProducts, int newProductId)
+        ProductRepository productRepository = new ProductRepository();
+
+        public BasketDTO AddProduct(List<ProductDTO> currentBasketProducts, int newProductId, int amount = 1)
         {
             ProductDTO newProduct = LoadProductById(newProductId);
-            if (newProduct != null) currentBasketProducts.Add(newProduct);
+            if (newProduct != null)
+            {
+                for (int i = 0; i < amount; i++)
+                {
+                    currentBasketProducts.Add(newProduct);
+                }
+            }
 
             BasketDTO basketDTO = new BasketDTO(currentBasketProducts);
+
+            // TODO: here calculate Discount and Log, and NOT in BasketDTO
+
             return basketDTO;
         }
 
-        private static ProductDTO LoadProductById(int newProductId)
+        private ProductDTO LoadProductById(int newProductId)
         {
-            List<ProductDTO> allProductDTOList = LoadProducts();
+            ProductDTOBuilder productDTOBuilder = new ProductDTOBuilder();
+
+            List<Product> allProductList = productRepository.LoadProducts();
+            List<ProductDTO> allProductDTOList = productDTOBuilder.MapProductsToDTOList(allProductList);
+
             return allProductDTOList.Where(x => x.Id == newProductId).SingleOrDefault();
         }
 
-        public static List<ProductDTO> LoadProductsByIdList(List<int> basketProductsIdList)
+        public List<ProductDTO> LoadProductsByIdList(List<int> basketProductsIdList)
         {
-            List<ProductDTO> allProductDTOList = LoadProducts();
+            ProductDTOBuilder productDTOBuilder = new ProductDTOBuilder();
+
+            List<Product> allProductList = productRepository.LoadProducts();
+            List<ProductDTO> allProductDTOList = productDTOBuilder.MapProductsToDTOList(allProductList);
+
             return allProductDTOList.Where(x => basketProductsIdList.Contains(x.Id)).ToList();
-        }
-
-        /// <summary>
-        /// Loads all products, simulating a database or similar data source
-        /// </summary>
-        /// <returns>Loaded list od ProductDTO objects</returns>
-        private static List<ProductDTO> LoadProducts()
-        {
-            List<ProductDTO> allProductDTOList = new List<ProductDTO>();
-
-            using (StreamReader r = new StreamReader("../../../../data_source.txt"))
-            {
-                string json = r.ReadToEnd();
-                allProductDTOList = JsonConvert.DeserializeObject<List<ProductDTO>>(json);
-            }
-
-            return allProductDTOList;
         }
     }
 }

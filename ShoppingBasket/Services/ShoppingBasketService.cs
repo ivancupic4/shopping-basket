@@ -2,6 +2,7 @@
 using ShoppingBasket.DAL.Models;
 using ShoppingBasket.Domain.Builders;
 using ShoppingBasket.DTO;
+using ShoppingBasket.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,6 +17,8 @@ namespace ShoppingBasket
 
         public BasketDTO AddProduct(List<ProductDTO> currentBasketProducts, int newProductId, int amount = 1)
         {
+            DiscountHelper discountHelper = new DiscountHelper();
+
             ProductDTO newProduct = LoadProductById(newProductId);
             if (newProduct != null)
             {
@@ -25,9 +28,16 @@ namespace ShoppingBasket
                 }
             }
 
-            BasketDTO basketDTO = new BasketDTO(currentBasketProducts);
+            decimal totalSum = currentBasketProducts.Select(x => x.Price).Sum();
+            List<int> productIdList = currentBasketProducts.Select(x => x.Id).ToList();
 
-            // TODO: here calculate Discount and Log, and NOT in BasketDTO
+            BasketDTO basketDTO = new BasketDTO();
+            basketDTO.CurrentBasketProducts = currentBasketProducts;
+            basketDTO.DiscountDTO = discountHelper.CalculateDiscount(productIdList);
+            basketDTO.TotalCost = totalSum - basketDTO.DiscountDTO.TotalDiscount;
+
+            LogHelper logHelper = new LogHelper();
+            logHelper.LogBasketDetails(basketDTO);
 
             return basketDTO;
         }

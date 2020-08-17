@@ -15,38 +15,38 @@ namespace ShoppingBasket.Helpers
         /// <param name="currentBasketProducts">Products currently in the basket</param>
         /// <param name="discountDTO">An object containing information about applied discounts</param>
         /// <param name="totalCost">Calculated total cost of all products with applied discounts</param>
-        public void LogBasketDetails(List<ProductDTO> currentBasketProducts, DiscountDTO discountDTO, decimal totalCost)
+        public void LogBasketDetails(BasketDTO basketDTO)
         {
             System.Diagnostics.Debug.WriteLine("\n\nShopping basket \n");
 
             System.Diagnostics.Debug.WriteLine("Products purchased:");
             System.Diagnostics.Debug.WriteLine("Id" + "\t" + "Product" + "\t" + "Price");
-            foreach (var productDTO in currentBasketProducts)
+            foreach (var productDTO in basketDTO.CurrentBasketProducts)
             {
                 System.Diagnostics.Debug.WriteLine(productDTO.Id + "\t" + productDTO.Name + "\t" + productDTO.Price.ToString("F"));
             }
-            if (currentBasketProducts.Count == 0)
+            if (basketDTO.CurrentBasketProducts.Count == 0)
             {
                 System.Diagnostics.Debug.WriteLine("-\t-\t\t-");
             }
 
-            decimal fullPrice = currentBasketProducts.Select(x => x.Price).Sum();
+            decimal fullPrice = basketDTO.CurrentBasketProducts.Select(x => x.Price).Sum();
             System.Diagnostics.Debug.WriteLine("Full price: " + fullPrice.ToString("F") + "\n");
 
             System.Diagnostics.Debug.WriteLine("Discounts:");
             System.Diagnostics.Debug.WriteLine("Product" + "\t" + "Discount");
-            foreach (var discountItemDTO in discountDTO.DiscountItemDTOList)
+            foreach (var discountItemDTO in basketDTO.DiscountDTO.DiscountItemDTOList)
             {
                 System.Diagnostics.Debug.WriteLine(discountItemDTO.Name + "\t" + discountItemDTO.Discount.ToString("F"));
             }
-            if (discountDTO.DiscountItemDTOList.Count == 0)
+            if (basketDTO.DiscountDTO.DiscountItemDTOList.Count == 0)
             {
                 System.Diagnostics.Debug.WriteLine("-\t\t-");
             }
 
-            System.Diagnostics.Debug.WriteLine("Total discount: " + discountDTO.TotalDiscount.ToString("F") + "\n");
+            System.Diagnostics.Debug.WriteLine("Total discount: " + basketDTO.DiscountDTO.TotalDiscount.ToString("F") + "\n");
 
-            System.Diagnostics.Debug.WriteLine("Total cost: " + totalCost.ToString("F"));
+            System.Diagnostics.Debug.WriteLine("Total cost: " + basketDTO.TotalCost.ToString("F"));
 
             System.Diagnostics.Debug.WriteLine("\n\n");
         }

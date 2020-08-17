@@ -14,9 +14,9 @@ namespace ShoppingBasket.DAL
         public List<Product> LoadProducts()
         {
             List<Product> allProductList = new List<Product>();
-            string dataSourceLocaion = "../../../../data_source.txt";
+            string dataSourceLocation = "../../../../data_source.txt";
 
-            using (StreamReader r = new StreamReader(dataSourceLocaion))
+            using (StreamReader r = new StreamReader(dataSourceLocation))
             {
                 string json = r.ReadToEnd();
                 allProductList = JsonConvert.DeserializeObject<List<Product>>(json);

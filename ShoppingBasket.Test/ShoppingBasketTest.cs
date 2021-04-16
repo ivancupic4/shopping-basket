@@ -9,13 +9,17 @@ namespace ShoppingBasket.Test
 {
     public class ShoppingBasketTest
     {
+        ProductDTO butter = new ProductDTO { Id = 1, Name = "Butter", Price = 0.8M };
+        ProductDTO milk = new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M };
+        ProductDTO bread = new ProductDTO { Id = 3, Name = "Bread", Price = 1M };
+
         [Test]
         public void Test_AddProduct_Scenario1()
         {
             List<ProductDTO> currentBasketProducts = new List<ProductDTO>();
-            currentBasketProducts.Add(new ProductDTO { Id = 1, Name = "Butter", Price = 0.8M });
-            currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
-            currentBasketProducts.Add(new ProductDTO { Id = 3, Name = "Bread", Price = 1M });
+            currentBasketProducts.Add(butter);
+            currentBasketProducts.Add(milk);
+            currentBasketProducts.Add(bread);
 
             int newProductId = 0;
             decimal expected = 2.95M;
@@ -30,10 +34,10 @@ namespace ShoppingBasket.Test
         public void Test_AddProduct_Scenario2()
         {
             List<ProductDTO> currentBasketProducts = new List<ProductDTO>();
-            currentBasketProducts.Add(new ProductDTO { Id = 1, Name = "Butter", Price = 0.8M });
-            currentBasketProducts.Add(new ProductDTO { Id = 1, Name = "Butter", Price = 0.8M });
-            currentBasketProducts.Add(new ProductDTO { Id = 3, Name = "Bread", Price = 1M });
-            currentBasketProducts.Add(new ProductDTO { Id = 3, Name = "Bread", Price = 1M });
+            currentBasketProducts.Add(butter);
+            currentBasketProducts.Add(butter);
+            currentBasketProducts.Add(bread);
+            currentBasketProducts.Add(bread);
 
             int newProductId = 0;
             decimal expected = 3.1M;
@@ -48,11 +52,11 @@ namespace ShoppingBasket.Test
         public void Test_AddProduct_Scenario3()
         {
             List<ProductDTO> currentBasketProducts = new List<ProductDTO>();
-            currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
-            currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
-            currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
+            currentBasketProducts.Add(milk);
+            currentBasketProducts.Add(milk);
+            currentBasketProducts.Add(milk);
             // this line is commented out to try if adding milk as newProductId works
-            //currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
+            //currentBasketProducts.Add(milk);
 
             int newProductId = 2;
             decimal expected = 3.45M;
@@ -67,19 +71,19 @@ namespace ShoppingBasket.Test
         public void Test_AddProduct_Scenario4()
         {
             List<ProductDTO> currentBasketProducts = new List<ProductDTO>();
-            currentBasketProducts.Add(new ProductDTO { Id = 1, Name = "Butter", Price = 0.8M });
-            currentBasketProducts.Add(new ProductDTO { Id = 1, Name = "Butter", Price = 0.8M });
-            currentBasketProducts.Add(new ProductDTO { Id = 3, Name = "Bread", Price = 1M });
+            currentBasketProducts.Add(butter);
+            currentBasketProducts.Add(butter);
+            currentBasketProducts.Add(bread);
 
-            currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
-            currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
-            currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
-            currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
+            currentBasketProducts.Add(milk);
+            currentBasketProducts.Add(milk);
+            currentBasketProducts.Add(milk);
+            currentBasketProducts.Add(milk);
 
-            currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
-            currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
-            currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
-            currentBasketProducts.Add(new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M });
+            currentBasketProducts.Add(milk);
+            currentBasketProducts.Add(milk);
+            currentBasketProducts.Add(milk);
+            currentBasketProducts.Add(milk);
 
             int newProductId = 0;
             decimal expected = 9M;

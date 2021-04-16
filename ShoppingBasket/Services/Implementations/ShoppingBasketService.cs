@@ -11,7 +11,7 @@ using System.Net.Http.Headers;
 
 namespace ShoppingBasket
 {
-    public class ShoppingBasketService
+    public class ShoppingBasketService : IShoppingBasketService
     {
         ProductRepository productRepository = new ProductRepository();
 

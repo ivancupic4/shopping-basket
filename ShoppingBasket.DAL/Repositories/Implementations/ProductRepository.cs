@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using ShoppingBasket.DAL.Models;
+using ShoppingBasket.DAL.Settings;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,10 +13,17 @@ namespace ShoppingBasket.DAL
 {
     public class ProductRepository : IProductRepository
     {
+        private readonly IOptions<WebAppSettings> _webAppSettings;
+
+        public ProductRepository(IOptions<WebAppSettings> webAppSettings)
+        {
+            _webAppSettings = webAppSettings;
+        }
+
         public List<Product> LoadProducts()
         {
             List<Product> allProductList = new List<Product>();
-            string dataSourceLocation = "../../../../data_source.txt";
+            string dataSourceLocation = _webAppSettings.Value.DataSourceLocation;
 
             using (StreamReader r = new StreamReader(dataSourceLocation))
             {

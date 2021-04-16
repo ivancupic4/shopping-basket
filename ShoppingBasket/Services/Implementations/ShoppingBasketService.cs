@@ -16,11 +16,6 @@ namespace ShoppingBasket
         private readonly IDiscountService _discountService;
         private readonly ILogService _logService;
 
-        public ShoppingBasketService()
-        {
-
-        }
-
         public ShoppingBasketService(IProductRepository productRepository,
                                         IDiscountService discountService,
                                         ILogService logService)

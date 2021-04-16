@@ -1,5 +1,7 @@
+using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using ShoppingBasket.DAL;
+using ShoppingBasket.DAL.Settings;
 using ShoppingBasket.DTO;
 using ShoppingBasket.Enums;
 using System.Collections.Generic;
@@ -16,8 +18,11 @@ namespace ShoppingBasket.Test
                                     IDiscountService discountService,
                                     ILogService logService*/)
         {
-            //dummy services for test
-            IProductRepository productRepository = new ProductRepository();
+            //TODO: implement dependency injection in this test class
+            //services mocked for test
+            IOptions<WebAppSettings> webAppSettings = Options.Create<WebAppSettings>(new WebAppSettings());
+            webAppSettings.Value.DataSourceLocation = "../../../../data_source.txt";
+            IProductRepository productRepository = new ProductRepository(webAppSettings);
             IDiscountService discountService = new DiscountService(productRepository);
             ILogService logService = new LogService();
 

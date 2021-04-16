@@ -1,14 +1,30 @@
 using NUnit.Framework;
+using ShoppingBasket.DAL;
 using ShoppingBasket.DTO;
 using ShoppingBasket.Enums;
-using ShoppingBasket.Helpers;
-using System;
 using System.Collections.Generic;
 
 namespace ShoppingBasket.Test
 {
     public class ShoppingBasketTest
     {
+        private readonly IShoppingBasketService _shoppingBasketService;
+        private readonly IDiscountService _discountService;
+
+        public ShoppingBasketTest(/*IShoppingBasketService shoppingBasketService,
+                                    IProductRepository productRepository,
+                                    IDiscountService discountService,
+                                    ILogService logService*/)
+        {
+            //dummy services for test
+            IProductRepository productRepository = new ProductRepository();
+            IDiscountService discountService = new DiscountService(productRepository);
+            ILogService logService = new LogService();
+
+            _shoppingBasketService = new ShoppingBasketService(productRepository, discountService, logService);
+            _discountService = new DiscountService(productRepository);
+        }
+
         ProductDTO butter = new ProductDTO { Id = 1, Name = "Butter", Price = 0.8M };
         ProductDTO milk = new ProductDTO { Id = 2, Name = "Milk", Price = 1.15M };
         ProductDTO bread = new ProductDTO { Id = 3, Name = "Bread", Price = 1M };
@@ -24,8 +40,7 @@ namespace ShoppingBasket.Test
             int newProductId = 0;
             decimal expected = 2.95M;
 
-            ShoppingBasketService shoppingBasketService = new ShoppingBasketService();
-            BasketDTO basketDTO = shoppingBasketService.AddProduct(currentBasketProducts, newProductId);
+            BasketDTO basketDTO = _shoppingBasketService.AddProduct(currentBasketProducts, newProductId);
 
             Assert.AreEqual(expected, basketDTO.TotalCost);
         }
@@ -42,8 +57,7 @@ namespace ShoppingBasket.Test
             int newProductId = 0;
             decimal expected = 3.1M;
 
-            ShoppingBasketService shoppingBasketService = new ShoppingBasketService();
-            BasketDTO basketDTO = shoppingBasketService.AddProduct(currentBasketProducts, newProductId);
+            BasketDTO basketDTO = _shoppingBasketService.AddProduct(currentBasketProducts, newProductId);
 
             Assert.AreEqual(expected, basketDTO.TotalCost);
         }
@@ -61,8 +75,7 @@ namespace ShoppingBasket.Test
             int newProductId = 2;
             decimal expected = 3.45M;
 
-            ShoppingBasketService shoppingBasketService = new ShoppingBasketService();
-            BasketDTO basketDTO = shoppingBasketService.AddProduct(currentBasketProducts, newProductId);
+            BasketDTO basketDTO = _shoppingBasketService.AddProduct(currentBasketProducts, newProductId);
 
             Assert.AreEqual(expected, basketDTO.TotalCost);
         }
@@ -88,8 +101,7 @@ namespace ShoppingBasket.Test
             int newProductId = 0;
             decimal expected = 9M;
 
-            ShoppingBasketService shoppingBasketService = new ShoppingBasketService();
-            BasketDTO basketDTO = shoppingBasketService.AddProduct(currentBasketProducts, newProductId);
+            BasketDTO basketDTO = _shoppingBasketService.AddProduct(currentBasketProducts, newProductId);
 
             Assert.AreEqual(expected, basketDTO.TotalCost);
         }
@@ -102,8 +114,7 @@ namespace ShoppingBasket.Test
             int newProductId = 0;
             decimal expected = 0M;
 
-            ShoppingBasketService shoppingBasketService = new ShoppingBasketService();
-            BasketDTO basketDTO = shoppingBasketService.AddProduct(currentBasketProducts, newProductId);
+            BasketDTO basketDTO = _shoppingBasketService.AddProduct(currentBasketProducts, newProductId);
 
             Assert.AreEqual(expected, basketDTO.TotalCost);
         }
@@ -116,8 +127,7 @@ namespace ShoppingBasket.Test
             int newProductId = 2;
             decimal expected = 1.15M;
 
-            ShoppingBasketService shoppingBasketService = new ShoppingBasketService();
-            BasketDTO basketDTO = shoppingBasketService.AddProduct(currentBasketProducts, newProductId);
+            BasketDTO basketDTO = _shoppingBasketService.AddProduct(currentBasketProducts, newProductId);
 
             Assert.AreEqual(expected, basketDTO.TotalCost);
         }
@@ -135,8 +145,7 @@ namespace ShoppingBasket.Test
 
             decimal expected = 0.5M;
 
-            DiscountHelper discountHelper = new DiscountHelper();
-            DiscountDTO discountDTO = discountHelper.CalculateDiscount(currentBasketProducts);
+            DiscountDTO discountDTO = _discountService.CalculateDiscount(currentBasketProducts);
 
             Assert.AreEqual(expected, discountDTO.TotalDiscount);
         }
@@ -157,8 +166,7 @@ namespace ShoppingBasket.Test
 
             decimal expected = 1.65M;
 
-            DiscountHelper discountHelper = new DiscountHelper();
-            DiscountDTO discountDTO = discountHelper.CalculateDiscount(currentBasketProducts);
+            DiscountDTO discountDTO = _discountService.CalculateDiscount(currentBasketProducts);
 
             Assert.AreEqual(expected, discountDTO.TotalDiscount);
         }

@@ -14,6 +14,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingBasket.Test", "Shop
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingBasket.DAL", "ShoppingBasket.DAL\ShoppingBasket.DAL.csproj", "{57D022B3-C8E3-416C-97AD-45080448A364}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingBasket.Web", "ShoppingBasket.Web\ShoppingBasket.Web.csproj", "{FB93CB2F-647F-449D-9A1C-EEA4B670EFED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +34,10 @@ Global
 		{57D022B3-C8E3-416C-97AD-45080448A364}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57D022B3-C8E3-416C-97AD-45080448A364}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57D022B3-C8E3-416C-97AD-45080448A364}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB93CB2F-647F-449D-9A1C-EEA4B670EFED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB93CB2F-647F-449D-9A1C-EEA4B670EFED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB93CB2F-647F-449D-9A1C-EEA4B670EFED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB93CB2F-647F-449D-9A1C-EEA4B670EFED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

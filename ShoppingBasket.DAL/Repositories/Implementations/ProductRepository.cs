@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ShoppingBasket.DAL
 {
-    public class ProductRepository
+    public class ProductRepository : IProductRepository
     {
         public List<Product> LoadProducts()
         {
@@ -23,6 +23,11 @@ namespace ShoppingBasket.DAL
             }
 
             return allProductList;
+        }
+
+        public Product LoadProductById(int id)
+        {
+            return LoadProducts().Where(x => x.Id == id).Single();
         }
     }
 }

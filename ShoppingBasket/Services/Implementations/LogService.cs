@@ -4,10 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ShoppingBasket.Helpers
+namespace ShoppingBasket
 {
-    public class LogHelper
+    public class LogService : ILogService
     {
+        public LogService()
+        {
+
+        }
+
         /// <summary> 
         /// Basket details logged to debug output window in Visual Studio
         /// Run selected tests in debug mode (right click on a test -> Debug) to print to console window

@@ -2,7 +2,6 @@
 using ShoppingBasket.DAL.Models;
 using ShoppingBasket.Domain.Builders;
 using ShoppingBasket.DTO;
-using ShoppingBasket.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,12 +12,26 @@ namespace ShoppingBasket
 {
     public class ShoppingBasketService : IShoppingBasketService
     {
-        ProductRepository productRepository = new ProductRepository();
+        private readonly IProductRepository _productRepository;
+        private readonly IDiscountService _discountService;
+        private readonly ILogService _logService;
+
+        public ShoppingBasketService()
+        {
+
+        }
+
+        public ShoppingBasketService(IProductRepository productRepository,
+                                        IDiscountService discountService,
+                                        ILogService logService)
+        {
+            _productRepository = productRepository;
+            _discountService = discountService;
+            _logService = logService;
+        }
 
         public BasketDTO AddProduct(List<ProductDTO> currentBasketProducts, int newProductId, int amount = 1)
         {
-            DiscountHelper discountHelper = new DiscountHelper();
-
             ProductDTO newProduct = LoadProductById(newProductId);
             if (newProduct != null)
             {
@@ -33,11 +46,10 @@ namespace ShoppingBasket
 
             BasketDTO basketDTO = new BasketDTO();
             basketDTO.CurrentBasketProducts = currentBasketProducts;
-            basketDTO.DiscountDTO = discountHelper.CalculateDiscount(productIdList);
+            basketDTO.DiscountDTO = _discountService.CalculateDiscount(productIdList);
             basketDTO.TotalCost = totalSum - basketDTO.DiscountDTO.TotalDiscount;
 
-            LogHelper logHelper = new LogHelper();
-            logHelper.LogBasketDetails(basketDTO);
+            _logService.LogBasketDetails(basketDTO);
 
             return basketDTO;
         }
@@ -46,7 +58,7 @@ namespace ShoppingBasket
         {
             ProductDTOBuilder productDTOBuilder = new ProductDTOBuilder();
 
-            List<Product> allProductList = productRepository.LoadProducts();
+            List<Product> allProductList = _productRepository.LoadProducts();
             List<ProductDTO> allProductDTOList = productDTOBuilder.MapProductsToDTOList(allProductList);
 
             return allProductDTOList.Where(x => x.Id == newProductId).SingleOrDefault();
@@ -56,7 +68,7 @@ namespace ShoppingBasket
         {
             ProductDTOBuilder productDTOBuilder = new ProductDTOBuilder();
 
-            List<Product> allProductList = productRepository.LoadProducts();
+            List<Product> allProductList = _productRepository.LoadProducts();
             List<ProductDTO> allProductDTOList = productDTOBuilder.MapProductsToDTOList(allProductList);
 
             return allProductDTOList.Where(x => basketProductsIdList.Contains(x.Id)).ToList();

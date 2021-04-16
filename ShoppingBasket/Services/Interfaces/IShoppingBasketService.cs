@@ -7,7 +7,7 @@ namespace ShoppingBasket
 {
     public interface IShoppingBasketService
     {
-        public BasketDTO AddProduct(List<ProductDTO> currentBasketProducts, int newProductId, int amount = 1);
-        public List<ProductDTO> LoadProductsByIdList(List<int> basketProductsIdList);
+        BasketDTO AddProduct(List<ProductDTO> currentBasketProducts, int newProductId, int amount = 1);
+        List<ProductDTO> LoadProductsByIdList(List<int> basketProductsIdList);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using ShoppingBasket.DAL;
 using ShoppingBasket.DAL.Models;
 using ShoppingBasket.Domain.Builders;
-using ShoppingBasket.DTO;
+using ShoppingBasket.Domain.DTO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,24 +25,27 @@ namespace ShoppingBasket
             _logService = logService;
         }
 
-        public BasketDTO AddProduct(List<ProductDTO> currentBasketProducts, int newProductId, int amount = 1)
+        public BasketDTO AddProduct(ProductInsertDTO productInsertDTO)
         {
-            ProductDTO newProduct = LoadProductById(newProductId);
+            ProductDTO newProduct = LoadProductById(productInsertDTO.ProductId);
             if (newProduct != null)
             {
-                for (int i = 0; i < amount; i++)
+                for (int i = 0; i < productInsertDTO.Amount; i++)
                 {
-                    currentBasketProducts.Add(newProduct);
+                    productInsertDTO.CurrentBasketProducts.Add(newProduct);
                 }
             }
 
-            decimal totalSum = currentBasketProducts.Select(x => x.Price).Sum();
-            List<int> productIdList = currentBasketProducts.Select(x => x.Id).ToList();
+            decimal totalSum = productInsertDTO.CurrentBasketProducts.Select(x => x.Price).Sum();
+            var productIdList = productInsertDTO.CurrentBasketProducts.Select(x => x.Id).ToList();
+            var discount = _discountService.CalculateDiscount(productIdList);
 
-            BasketDTO basketDTO = new BasketDTO();
-            basketDTO.CurrentBasketProducts = currentBasketProducts;
-            basketDTO.DiscountDTO = _discountService.CalculateDiscount(productIdList);
-            basketDTO.TotalCost = totalSum - basketDTO.DiscountDTO.TotalDiscount;
+            BasketDTO basketDTO = new BasketDTO()
+            {
+                CurrentBasketProducts = productInsertDTO.CurrentBasketProducts,
+                DiscountDTO = discount,
+                TotalCost = totalSum - discount.TotalDiscount
+            };
 
             _logService.LogBasketDetails(basketDTO);
 
@@ -53,8 +56,8 @@ namespace ShoppingBasket
         {
             ProductDTOBuilder productDTOBuilder = new ProductDTOBuilder();
 
-            List<Product> allProductList = _productRepository.LoadProducts();
-            List<ProductDTO> allProductDTOList = productDTOBuilder.MapProductsToDTOList(allProductList);
+            var allProductList = _productRepository.LoadProducts();
+            var allProductDTOList = productDTOBuilder.MapProductsToDTOList(allProductList);
 
             return allProductDTOList.Where(x => x.Id == newProductId).SingleOrDefault();
         }
@@ -63,8 +66,8 @@ namespace ShoppingBasket
         {
             ProductDTOBuilder productDTOBuilder = new ProductDTOBuilder();
 
-            List<Product> allProductList = _productRepository.LoadProducts();
-            List<ProductDTO> allProductDTOList = productDTOBuilder.MapProductsToDTOList(allProductList);
+            var allProductList = _productRepository.LoadProducts();
+            var allProductDTOList = productDTOBuilder.MapProductsToDTOList(allProductList);
 
             return allProductDTOList.Where(x => basketProductsIdList.Contains(x.Id)).ToList();
         }

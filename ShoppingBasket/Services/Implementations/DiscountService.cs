@@ -1,6 +1,6 @@
 ﻿using ShoppingBasket.DAL;
 using ShoppingBasket.DAL.Models;
-using ShoppingBasket.DTO;
+using ShoppingBasket.Domain.DTO;
 using ShoppingBasket.Enums;
 using System;
 using System.Collections.Generic;
@@ -10,6 +10,7 @@ using System.Threading;
 
 namespace ShoppingBasket
 {
+    // TODO: needs refactoring to make it generic
     public class DiscountService : IDiscountService
     {
         private readonly IProductRepository _productRepository;
@@ -26,7 +27,7 @@ namespace ShoppingBasket
         public DiscountDTO CalculateDiscount(List<int> basketProductsIdList)
         {
             // DiscountDTO to be filled with data and returned
-            DiscountDTO discountDTO = new DiscountDTO();
+            var discountDTO = new DiscountDTO();
 
             CalculateBreadDiscount(basketProductsIdList, discountDTO);
             CalculateMilkDiscount(basketProductsIdList, discountDTO);

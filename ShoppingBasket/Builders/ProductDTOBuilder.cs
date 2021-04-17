@@ -1,5 +1,5 @@
 ﻿using ShoppingBasket.DAL.Models;
-using ShoppingBasket.DTO;
+using ShoppingBasket.Domain.DTO;
 using System;
 using System.Collections.Generic;
 using System.Text;

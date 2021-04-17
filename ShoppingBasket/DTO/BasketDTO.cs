@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace ShoppingBasket.DTO
+namespace ShoppingBasket.Domain.DTO
 {
     public class BasketDTO
     {

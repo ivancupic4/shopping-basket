@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace ShoppingBasket.DTO
+namespace ShoppingBasket.Domain.DTO
 {
     public class DiscountDTO
     {

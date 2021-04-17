@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ShoppingBasket.DTO
+namespace ShoppingBasket.Domain.DTO
 {
     public class ProductDTO
     {

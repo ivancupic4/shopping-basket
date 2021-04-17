@@ -2,7 +2,7 @@ using Microsoft.Extensions.Options;
 using NUnit.Framework;
 using ShoppingBasket.DAL;
 using ShoppingBasket.DAL.Settings;
-using ShoppingBasket.DTO;
+using ShoppingBasket.Domain.DTO;
 using ShoppingBasket.Enums;
 using System.Collections.Generic;
 
@@ -37,15 +37,16 @@ namespace ShoppingBasket.Test
         [Test]
         public void Test_AddProduct_Scenario1()
         {
-            List<ProductDTO> currentBasketProducts = new List<ProductDTO>();
-            currentBasketProducts.Add(butter);
-            currentBasketProducts.Add(milk);
-            currentBasketProducts.Add(bread);
+            ProductInsertDTO productInsertDTO = new ProductInsertDTO
+            {
+                CurrentBasketProducts = new List<ProductDTO>() { butter, milk, bread },
+                ProductId = 0,
+                Amount = 0
+            };
 
-            int newProductId = 0;
             decimal expected = 2.95M;
 
-            BasketDTO basketDTO = _shoppingBasketService.AddProduct(currentBasketProducts, newProductId);
+            BasketDTO basketDTO = _shoppingBasketService.AddProduct(productInsertDTO);
 
             Assert.AreEqual(expected, basketDTO.TotalCost);
         }
@@ -53,16 +54,16 @@ namespace ShoppingBasket.Test
         [Test]
         public void Test_AddProduct_Scenario2()
         {
-            List<ProductDTO> currentBasketProducts = new List<ProductDTO>();
-            currentBasketProducts.Add(butter);
-            currentBasketProducts.Add(butter);
-            currentBasketProducts.Add(bread);
-            currentBasketProducts.Add(bread);
+            ProductInsertDTO productInsertDTO = new ProductInsertDTO
+            {
+                CurrentBasketProducts = new List<ProductDTO>() { butter, butter, bread, bread },
+                ProductId = 0,
+                Amount = 0
+            };
 
-            int newProductId = 0;
             decimal expected = 3.1M;
 
-            BasketDTO basketDTO = _shoppingBasketService.AddProduct(currentBasketProducts, newProductId);
+            BasketDTO basketDTO = _shoppingBasketService.AddProduct(productInsertDTO);
 
             Assert.AreEqual(expected, basketDTO.TotalCost);
         }
@@ -70,17 +71,16 @@ namespace ShoppingBasket.Test
         [Test]
         public void Test_AddProduct_Scenario3()
         {
-            List<ProductDTO> currentBasketProducts = new List<ProductDTO>();
-            currentBasketProducts.Add(milk);
-            currentBasketProducts.Add(milk);
-            currentBasketProducts.Add(milk);
-            // this line is commented out to try if adding milk as newProductId works
-            //currentBasketProducts.Add(milk);
+            ProductInsertDTO productInsertDTO = new ProductInsertDTO
+            {
+                CurrentBasketProducts = new List<ProductDTO>() { milk, milk, milk },
+                ProductId = 2,
+                Amount = 1
+            };
 
-            int newProductId = 2;
             decimal expected = 3.45M;
 
-            BasketDTO basketDTO = _shoppingBasketService.AddProduct(currentBasketProducts, newProductId);
+            BasketDTO basketDTO = _shoppingBasketService.AddProduct(productInsertDTO);
 
             Assert.AreEqual(expected, basketDTO.TotalCost);
         }
@@ -88,25 +88,18 @@ namespace ShoppingBasket.Test
         [Test]
         public void Test_AddProduct_Scenario4()
         {
-            List<ProductDTO> currentBasketProducts = new List<ProductDTO>();
-            currentBasketProducts.Add(butter);
-            currentBasketProducts.Add(butter);
-            currentBasketProducts.Add(bread);
+            ProductInsertDTO productInsertDTO = new ProductInsertDTO
+            {
+                CurrentBasketProducts = new List<ProductDTO>() { butter, butter, bread,
+                                                                 milk, milk, milk, milk,
+                                                                 milk, milk, milk, milk },
+                ProductId = 0,
+                Amount = 0
+            };
 
-            currentBasketProducts.Add(milk);
-            currentBasketProducts.Add(milk);
-            currentBasketProducts.Add(milk);
-            currentBasketProducts.Add(milk);
-
-            currentBasketProducts.Add(milk);
-            currentBasketProducts.Add(milk);
-            currentBasketProducts.Add(milk);
-            currentBasketProducts.Add(milk);
-
-            int newProductId = 0;
             decimal expected = 9M;
 
-            BasketDTO basketDTO = _shoppingBasketService.AddProduct(currentBasketProducts, newProductId);
+            BasketDTO basketDTO = _shoppingBasketService.AddProduct(productInsertDTO);
 
             Assert.AreEqual(expected, basketDTO.TotalCost);
         }
@@ -114,12 +107,16 @@ namespace ShoppingBasket.Test
         [Test]
         public void Test_AddProduct_Scenario5()
         {
-            List<ProductDTO> currentBasketProducts = new List<ProductDTO>();
+            ProductInsertDTO productInsertDTO = new ProductInsertDTO
+            {
+                CurrentBasketProducts = new List<ProductDTO>(),
+                ProductId = 0,
+                Amount = 0
+            };
 
-            int newProductId = 0;
             decimal expected = 0M;
 
-            BasketDTO basketDTO = _shoppingBasketService.AddProduct(currentBasketProducts, newProductId);
+            BasketDTO basketDTO = _shoppingBasketService.AddProduct(productInsertDTO);
 
             Assert.AreEqual(expected, basketDTO.TotalCost);
         }
@@ -127,12 +124,16 @@ namespace ShoppingBasket.Test
         [Test]
         public void Test_AddProduct_Scenario6()
         {
-            List<ProductDTO> currentBasketProducts = new List<ProductDTO>();
+            ProductInsertDTO productInsertDTO = new ProductInsertDTO
+            {
+                CurrentBasketProducts = new List<ProductDTO>(),
+                ProductId = 2,
+                Amount = 1
+            };
 
-            int newProductId = 2;
             decimal expected = 1.15M;
 
-            BasketDTO basketDTO = _shoppingBasketService.AddProduct(currentBasketProducts, newProductId);
+            BasketDTO basketDTO = _shoppingBasketService.AddProduct(productInsertDTO);
 
             Assert.AreEqual(expected, basketDTO.TotalCost);
         }
@@ -140,13 +141,12 @@ namespace ShoppingBasket.Test
         [Test]
         public void Test_CalculateDiscount_Scenario1()
         {
-            List<int> currentBasketProducts = new List<int>();
-            currentBasketProducts.Add((int)ProductEnum.Butter);
-            currentBasketProducts.Add((int)ProductEnum.Butter);
-            currentBasketProducts.Add((int)ProductEnum.Butter);
-            currentBasketProducts.Add((int)ProductEnum.Milk);
-            currentBasketProducts.Add((int)ProductEnum.Bread);
-            currentBasketProducts.Add((int)ProductEnum.Bread);
+            List<int> currentBasketProducts = new List<int>() 
+            {
+                butter.Id, butter.Id, butter.Id,
+                milk.Id, 
+                bread.Id, bread.Id
+            };
 
             decimal expected = 0.5M;
 
@@ -158,16 +158,12 @@ namespace ShoppingBasket.Test
         [Test]
         public void Test_CalculateDiscount_Scenario2()
         {
-            List<int> currentBasketProducts = new List<int>();
-            currentBasketProducts.Add((int)ProductEnum.Butter);
-            currentBasketProducts.Add((int)ProductEnum.Butter);
-            currentBasketProducts.Add((int)ProductEnum.Butter);
-            currentBasketProducts.Add((int)ProductEnum.Butter);
-            currentBasketProducts.Add((int)ProductEnum.Milk);
-            currentBasketProducts.Add((int)ProductEnum.Milk);
-            currentBasketProducts.Add((int)ProductEnum.Milk);
-            currentBasketProducts.Add((int)ProductEnum.Milk);
-            currentBasketProducts.Add((int)ProductEnum.Bread);
+            List<int> currentBasketProducts = new List<int>() 
+            {
+                butter.Id, butter.Id, butter.Id,
+                milk.Id, milk.Id, milk.Id, milk.Id,
+                bread.Id
+            };
 
             decimal expected = 1.65M;
 

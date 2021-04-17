@@ -4,12 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using ShoppingBasket.DTO;
+using ShoppingBasket.Domain.DTO;
 
 namespace ShoppingBasket.Web.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ShoppingBasketController : ControllerBase
     {
         private readonly IShoppingBasketService _shoppingBasketService;
@@ -20,12 +20,18 @@ namespace ShoppingBasket.Web.Controllers
         }
 
         [HttpGet]
-        public List<ProductDTO> Get()
+        [Route("getProductList")]
+        public List<ProductDTO> GetProductList([FromBody] List<int> productIdList)
         {
-            List<int> productIdList = new List<int> { 1, 2, 3 };
-
-            List<ProductDTO> productDTOList = _shoppingBasketService.LoadProductsByIdList(productIdList);
+            var productDTOList = _shoppingBasketService.LoadProductsByIdList(productIdList);
             return productDTOList;
+        }
+
+        [HttpPost]
+        [Route("addProduct")]
+        public void AddProduct([FromBody] ProductInsertDTO productInsertDTO)
+        {
+            _shoppingBasketService.AddProduct(productInsertDTO);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace ShoppingBasket.DAL
 
         public List<Product> LoadProducts()
         {
-            List<Product> allProductList = new List<Product>();
+            var allProductList = new List<Product>();
             string dataSourceLocation = _webAppSettings.Value.DataSourceLocation;
 
             using (StreamReader r = new StreamReader(dataSourceLocation))

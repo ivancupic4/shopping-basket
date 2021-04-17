@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ShoppingBasket.DAL\ShoppingBasket.DAL.csproj" />
-    <ProjectReference Include="..\ShoppingBasket\ShoppingBasket.Domain.csproj" />
+    <ProjectReference Include="..\ShoppingBasket.Domain\ShoppingBasket.Domain.csproj" />
   </ItemGroup>
 
 </Project>

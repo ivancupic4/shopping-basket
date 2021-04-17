@@ -10,11 +10,11 @@ namespace ShoppingBasket.Domain.Builders
     {
         public List<ProductDTO> MapProductsToDTOList(List<Product> productList)
         {
-            List<ProductDTO> productDTOList = new List<ProductDTO>();
+            var productDTOList = new List<ProductDTO>();
 
             foreach (var product in productList)
             {
-                ProductDTO productDTO = MapProductToDTO(product);
+                var productDTO = MapProductToDTO(product);
                 productDTOList.Add(productDTO);
             }
 
@@ -23,10 +23,12 @@ namespace ShoppingBasket.Domain.Builders
 
         public ProductDTO MapProductToDTO(Product product)
         {
-            ProductDTO productDTO = new ProductDTO();
-            productDTO.Id = product.Id;
-            productDTO.Name = product.Name;
-            productDTO.Price = product.Price;
+            var productDTO = new ProductDTO()
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price
+            };
 
             return productDTO;
         }

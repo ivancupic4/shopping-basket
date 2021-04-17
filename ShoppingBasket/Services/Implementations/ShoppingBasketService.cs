@@ -27,7 +27,8 @@ namespace ShoppingBasket
 
         public BasketDTO AddProduct(ProductInsertDTO productInsertDTO)
         {
-            ProductDTO newProduct = LoadProductById(productInsertDTO.ProductId);
+            var newProduct = LoadProductById(productInsertDTO.ProductId);
+
             if (newProduct != null)
             {
                 for (int i = 0; i < productInsertDTO.Amount; i++)
@@ -54,22 +55,24 @@ namespace ShoppingBasket
 
         private ProductDTO LoadProductById(int newProductId)
         {
-            ProductDTOBuilder productDTOBuilder = new ProductDTOBuilder();
+            var productDTOBuilder = new ProductDTOBuilder();
 
             var allProductList = _productRepository.LoadProducts();
             var allProductDTOList = productDTOBuilder.MapProductsToDTOList(allProductList);
 
-            return allProductDTOList.Where(x => x.Id == newProductId).SingleOrDefault();
+            var productDTO = allProductDTOList.Where(x => x.Id == newProductId).SingleOrDefault();
+            return productDTO;
         }
 
-        public List<ProductDTO> LoadProductsByIdList(List<int> basketProductsIdList)
+        public List<ProductDTO> LoadProductsByIdList(List<int> productIdList)
         {
-            ProductDTOBuilder productDTOBuilder = new ProductDTOBuilder();
+            var productDTOBuilder = new ProductDTOBuilder();
 
             var allProductList = _productRepository.LoadProducts();
             var allProductDTOList = productDTOBuilder.MapProductsToDTOList(allProductList);
 
-            return allProductDTOList.Where(x => basketProductsIdList.Contains(x.Id)).ToList();
+            var productDTOList = allProductDTOList.Where(x => productIdList.Contains(x.Id)).ToList();
+            return productDTOList;
         }
     }
 }

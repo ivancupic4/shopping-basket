@@ -1,4 +1,4 @@
-# ShoppingBasket project for trying stuff out with .NET Core and Web API
+# ShoppingBasket project for trying stuff out with .NET Core, Web API and NUnit
 
 This project is done in Visual Studio 2019, with .NET Core 3.1 and Web API, with NUnit tests set up. 
 

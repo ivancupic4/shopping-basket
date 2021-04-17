@@ -27,13 +27,13 @@ namespace ShoppingBasket
 
         public BasketDTO AddProduct(ProductInsertDTO productInsertDTO)
         {
-            var newProduct = LoadProductById(productInsertDTO.ProductId);
-
-            if (newProduct != null)
+            if (productInsertDTO.ProductId > 0)
             {
+                var newProductDTO = GetProductById(productInsertDTO.ProductId);
+
                 for (int i = 0; i < productInsertDTO.Amount; i++)
                 {
-                    productInsertDTO.CurrentBasketProducts.Add(newProduct);
+                    productInsertDTO.CurrentBasketProducts.Add(newProductDTO);
                 }
             }
 
@@ -53,25 +53,19 @@ namespace ShoppingBasket
             return basketDTO;
         }
 
-        private ProductDTO LoadProductById(int newProductId)
+        public ProductDTO GetProductById(int productId)
         {
-            var productDTOBuilder = new ProductDTOBuilder();
+            var product = _productRepository.LoadProductById(productId);
+            var productDTO = ProductDTOBuilder.MapProductToDTO(product);
 
-            var allProductList = _productRepository.LoadProducts();
-            var allProductDTOList = productDTOBuilder.MapProductsToDTOList(allProductList);
-
-            var productDTO = allProductDTOList.Where(x => x.Id == newProductId).SingleOrDefault();
             return productDTO;
         }
 
-        public List<ProductDTO> LoadProductsByIdList(List<int> productIdList)
+        public List<ProductDTO> GetProductsByIdList(List<int> productIdList)
         {
-            var productDTOBuilder = new ProductDTOBuilder();
+            var allProductsList = _productRepository.LoadProducts(productIdList);
+            var productDTOList = ProductDTOBuilder.MapProductsToDTOList(allProductsList);
 
-            var allProductList = _productRepository.LoadProducts();
-            var allProductDTOList = productDTOBuilder.MapProductsToDTOList(allProductList);
-
-            var productDTOList = allProductDTOList.Where(x => productIdList.Contains(x.Id)).ToList();
             return productDTOList;
         }
     }

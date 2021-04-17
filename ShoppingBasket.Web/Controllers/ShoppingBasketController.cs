@@ -20,10 +20,18 @@ namespace ShoppingBasket.Web.Controllers
         }
 
         [HttpGet]
+        [Route("GetProjekt/{projektID:int}")]
+        public ProductDTO GetProduct(int productId)
+        {
+            var productDTO = this._shoppingBasketService.GetProductById(productId);
+            return productDTO;
+        }
+
+        [HttpGet]
         [Route("getProductList")]
         public List<ProductDTO> GetProductList([FromBody] List<int> productIdList)
         {
-            var productDTOList = _shoppingBasketService.LoadProductsByIdList(productIdList);
+            var productDTOList = _shoppingBasketService.GetProductsByIdList(productIdList);
             return productDTOList;
         }
 

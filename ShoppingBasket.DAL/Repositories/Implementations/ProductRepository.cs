@@ -20,7 +20,7 @@ namespace ShoppingBasket.DAL
             _webAppSettings = webAppSettings;
         }
 
-        public List<Product> LoadProducts()
+        public List<Product> LoadProducts(List<int> productIdList = null)
         {
             var allProductList = new List<Product>();
             string dataSourceLocation = _webAppSettings.Value.DataSourceLocation;
@@ -31,12 +31,18 @@ namespace ShoppingBasket.DAL
                 allProductList = JsonConvert.DeserializeObject<List<Product>>(json);
             }
 
+            if (productIdList != null)
+            {
+                allProductList = allProductList.Where(x => productIdList.Contains(x.Id)).ToList();
+            } 
+
             return allProductList;
         }
 
         public Product LoadProductById(int id)
         {
-            return LoadProducts().Where(x => x.Id == id).Single();
+            var product = LoadProducts().Where(x => x.Id == id).Single();
+            return product;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace ShoppingBasket.DAL
 {
     public interface IProductRepository
     {
-        List<Product> LoadProducts();
+        List<Product> LoadProducts(List<int> productIdList = null);
         Product LoadProductById(int bread);
     }
 }

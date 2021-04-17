@@ -6,9 +6,9 @@ using System.Text;
 
 namespace ShoppingBasket.Domain.Builders
 {
-    public class ProductDTOBuilder
+    public static class ProductDTOBuilder
     {
-        public List<ProductDTO> MapProductsToDTOList(List<Product> productList)
+        public static List<ProductDTO> MapProductsToDTOList(List<Product> productList)
         {
             var productDTOList = new List<ProductDTO>();
 
@@ -21,7 +21,7 @@ namespace ShoppingBasket.Domain.Builders
             return productDTOList;
         }
 
-        public ProductDTO MapProductToDTO(Product product)
+        public static ProductDTO MapProductToDTO(Product product)
         {
             var productDTO = new ProductDTO()
             {

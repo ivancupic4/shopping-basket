@@ -152,10 +152,10 @@ namespace ShoppingBasket.Test
         [Test]
         public void Test_CalculateDiscount_Scenario1()
         {
-            List<int> currentBasketProducts = new List<int>() 
+            List<int> currentBasketProducts = new List<int>()
             {
                 butter.Id, butter.Id, butter.Id,
-                milk.Id, 
+                milk.Id,
                 bread.Id, bread.Id
             };
 
@@ -168,7 +168,7 @@ namespace ShoppingBasket.Test
         [Test]
         public void Test_CalculateDiscount_Scenario2()
         {
-            List<int> currentBasketProducts = new List<int>() 
+            List<int> currentBasketProducts = new List<int>()
             {
                 butter.Id, butter.Id, butter.Id,
                 milk.Id, milk.Id, milk.Id, milk.Id,

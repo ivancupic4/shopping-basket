@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ShoppingBasket.Domain.DTO;
@@ -20,7 +21,7 @@ namespace ShoppingBasket.Web.Controllers
         }
 
         [HttpGet]
-        [Route("GetProjekt/{projektID:int}")]
+        [Route("getProduct/{productId:int}")]
         public ProductDTO GetProduct(int productId)
         {
             var productDTO = this._shoppingBasketService.GetProductById(productId);

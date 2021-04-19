@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using ShoppingBasket.DAL;
 using ShoppingBasket.DAL.Settings;
 
 namespace ShoppingBasket.Web
@@ -31,6 +32,7 @@ namespace ShoppingBasket.Web
             services.AddScoped<ILogService, LogService>();
             services.AddScoped<IDiscountService, DiscountService>();
             services.AddScoped<IShoppingBasketService, ShoppingBasketService>();
+            services.AddScoped<IProductRepository, ProductRepository>();
 
             services.Configure<WebAppSettings>(Configuration.GetSection("WebAppSettings"));
         }

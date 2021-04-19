@@ -39,13 +39,13 @@ namespace ShoppingBasket
 
             decimal totalSum = productInsertDTO.CurrentBasketProducts.Select(x => x.Price).Sum();
             var productIdList = productInsertDTO.CurrentBasketProducts.Select(x => x.Id).ToList();
-            var discount = _discountService.CalculateDiscount(productIdList);
+            var discountDTO = _discountService.CalculateDiscount(productIdList);
 
             BasketDTO basketDTO = new BasketDTO()
             {
                 CurrentBasketProducts = productInsertDTO.CurrentBasketProducts,
-                DiscountDTO = discount,
-                TotalCost = totalSum - discount.TotalDiscount
+                DiscountDTO = discountDTO,
+                TotalCost = totalSum - discountDTO.TotalDiscount
             };
 
             _logService.LogBasketDetails(basketDTO);

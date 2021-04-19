@@ -22,21 +22,27 @@ namespace ShoppingBasket.DAL
 
         public List<Product> LoadProducts(List<int> productIdList = null)
         {
-            var allProductList = new List<Product>();
-            string dataSourceLocation = _webAppSettings.Value.DataSourceLocation;
+            var allProductsList = new List<Product>();
+            var selectedProductsList = new List<Product>();
 
+            string dataSourceLocation = _webAppSettings.Value.DataSourceLocation;
             using (StreamReader r = new StreamReader(dataSourceLocation))
             {
                 string json = r.ReadToEnd();
-                allProductList = JsonConvert.DeserializeObject<List<Product>>(json);
+                allProductsList = JsonConvert.DeserializeObject<List<Product>>(json);
             }
 
             if (productIdList != null)
             {
-                allProductList = allProductList.Where(x => productIdList.Contains(x.Id)).ToList();
-            } 
+                foreach (var productId in productIdList)
+                {
+                    selectedProductsList.Add(allProductsList.Single(x => x.Id == productId));
+                }
 
-            return allProductList;
+                return selectedProductsList;
+            }
+
+            return allProductsList;
         }
 
         public Product LoadProductById(int id)

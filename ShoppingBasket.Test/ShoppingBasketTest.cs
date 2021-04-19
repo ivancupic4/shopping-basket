@@ -15,11 +15,8 @@ namespace ShoppingBasket.Test
         private readonly IDiscountService _discountService;
 
         public ShoppingBasketTest(/*IShoppingBasketService shoppingBasketService,
-                                    IProductRepository productRepository,
-                                    IDiscountService discountService,
-                                    ILogService logService*/)
+                                    IDiscountService discountService*/)
         {
-            //TODO: implement dependency injection in this test class
             //services mocked for test
             IOptions<WebAppSettings> webAppSettings = Options.Create<WebAppSettings>(new WebAppSettings());
             webAppSettings.Value.DataSourceLocation = "../../../../data_source.txt";

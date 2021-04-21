@@ -24,16 +24,14 @@ namespace ShoppingBasket.Web.Controllers
         [Route("getProduct/{productId:int}")]
         public ProductDTO GetProduct(int productId)
         {
-            var productDTO = this._shoppingBasketService.GetProductById(productId);
-            return productDTO;
+            return _shoppingBasketService.GetProductById(productId);
         }
 
         [HttpGet]
         [Route("getProductList")]
         public List<ProductDTO> GetProductList([FromBody] List<int> productIdList)
         {
-            var productDTOList = _shoppingBasketService.GetProductsByIdList(productIdList);
-            return productDTOList;
+            return _shoppingBasketService.GetProductsByIdList(productIdList);
         }
 
         [HttpPost]

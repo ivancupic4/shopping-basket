@@ -15,14 +15,14 @@ namespace ShoppingBasket
     {
         private readonly IProductRepository _productRepository;
 
+        // product discounts defined at one place, which can also be loaded from a database
+        private static decimal breadDiscount = 0.5M;
+        private static decimal milkDiscount = 1M;
+
         public DiscountService(IProductRepository productRepository)
         {
             _productRepository = productRepository;
         }
-
-        // product discounts defined at one place, which can also be loaded from a database
-        private static decimal breadDiscount = 0.5M;
-        private static decimal milkDiscount = 1M;
 
         public DiscountDTO CalculateDiscount(List<int> basketProductsIdList)
         {

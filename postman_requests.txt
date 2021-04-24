@@ -1,0 +1,12 @@
+GET
+http://localhost:57979/api/ShoppingBasket/getProduct/2
+Header: 
+"Content-Type": "application/json"
+
+GET
+http://localhost:57979/api/ShoppingBasket/getProductList
+Header:
+"Content-Type": "application/json"
+Body:
+[ 1, 1 ]
+

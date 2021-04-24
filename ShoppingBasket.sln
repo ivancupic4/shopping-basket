@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{CE35381B-9A2D-42B8-96DA-6BC0997E9BFE}"
 	ProjectSection(SolutionItems) = preProject
 		data_source.txt = data_source.txt
+		postman_requests.txt = postman_requests.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingBasket.Test", "ShoppingBasket.Test\ShoppingBasket.Test.csproj", "{2576241F-8979-4D9E-9F48-FEDF868D1A01}"
@@ -22,6 +23,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8FDF5075-D60D-4E64-ADCD-C512626C52F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FDF5075-D60D-4E64-ADCD-C512626C52F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FDF5075-D60D-4E64-ADCD-C512626C52F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FDF5075-D60D-4E64-ADCD-C512626C52F6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2576241F-8979-4D9E-9F48-FEDF868D1A01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2576241F-8979-4D9E-9F48-FEDF868D1A01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2576241F-8979-4D9E-9F48-FEDF868D1A01}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -34,10 +39,6 @@ Global
 		{FB93CB2F-647F-449D-9A1C-EEA4B670EFED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB93CB2F-647F-449D-9A1C-EEA4B670EFED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB93CB2F-647F-449D-9A1C-EEA4B670EFED}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8FDF5075-D60D-4E64-ADCD-C512626C52F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8FDF5075-D60D-4E64-ADCD-C512626C52F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8FDF5075-D60D-4E64-ADCD-C512626C52F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8FDF5075-D60D-4E64-ADCD-C512626C52F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

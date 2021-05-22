@@ -11,5 +11,6 @@ namespace ShoppingBasket.DAL
     {
         List<Product> LoadProducts(List<int> productIdList = null);
         Product LoadProductById(int bread);
+        List<ProductDiscountConditions> LoadProductDiscountConditions();
     }
 }

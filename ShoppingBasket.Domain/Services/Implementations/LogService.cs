@@ -17,9 +17,7 @@ namespace ShoppingBasket
         /// Basket details logged to debug output window in Visual Studio
         /// Run selected tests in debug mode (right click on a test -> Debug) to print to console window
         /// </summary>
-        /// <param name="currentBasketProducts">Products currently in the basket</param>
-        /// <param name="discountDTO">An object containing information about applied discounts</param>
-        /// <param name="totalCost">Calculated total cost of all products with applied discounts</param>
+        /// <param name="basketDTO">Basket containing current basket products and discount information</param>
         public void LogBasketDetails(BasketDTO basketDTO)
         {
             System.Diagnostics.Debug.WriteLine("\n\nShopping basket \n");

@@ -8,5 +8,6 @@ namespace ShoppingBasket.DAL.Settings
     public class WebAppSettings
     {
         public string DataSourceLocation { get; set; }
+        public string ProductsDiscountLocation { get; set; }
     }
 }

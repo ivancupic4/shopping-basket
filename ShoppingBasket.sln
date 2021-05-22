@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionIt
 	ProjectSection(SolutionItems) = preProject
 		data_source.txt = data_source.txt
 		postman_requests.txt = postman_requests.txt
+		products_discount.txt = products_discount.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShoppingBasket.Test", "ShoppingBasket.Test\ShoppingBasket.Test.csproj", "{2576241F-8979-4D9E-9F48-FEDF868D1A01}"

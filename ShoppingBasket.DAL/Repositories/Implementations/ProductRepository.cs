@@ -50,5 +50,19 @@ namespace ShoppingBasket.DAL
             var product = LoadProducts().Where(x => x.Id == id).Single();
             return product;
         }
+
+        public List<ProductDiscountConditions> LoadProductDiscountConditions()
+        {
+            var productDiscountConditions = new List<ProductDiscountConditions>();
+
+            string productsDiscountLocation = _webAppSettings.Value.ProductsDiscountLocation;
+            using (StreamReader r = new StreamReader(productsDiscountLocation))
+            {
+                string json = r.ReadToEnd();
+                productDiscountConditions = JsonConvert.DeserializeObject<List<ProductDiscountConditions>>(json);
+            }
+
+            return productDiscountConditions;
+        }
     }
 }

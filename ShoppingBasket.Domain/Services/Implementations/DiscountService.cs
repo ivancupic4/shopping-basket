@@ -10,14 +10,9 @@ using System.Threading;
 
 namespace ShoppingBasket
 {
-    // TODO: needs refactoring to make it generic
     public class DiscountService : IDiscountService
     {
         private readonly IProductRepository _productRepository;
-
-        // product discounts defined at one place, which can also be loaded from a database
-        private static decimal breadDiscount = 0.5M;
-        private static decimal milkDiscount = 1M;
 
         public DiscountService(IProductRepository productRepository)
         {
@@ -26,51 +21,31 @@ namespace ShoppingBasket
 
         public DiscountDTO CalculateDiscount(List<int> basketProductsIdList)
         {
-            // DiscountDTO to be filled with data and returned
             var discountDTO = new DiscountDTO();
+            var productDiscountConditions = _productRepository.LoadProductDiscountConditions();
+            var discountedProductList = _productRepository.LoadProducts(productDiscountConditions.Select(x => x.DiscountedProductId).ToList());
 
-            CalculateBreadDiscount(basketProductsIdList, discountDTO);
-            CalculateMilkDiscount(basketProductsIdList, discountDTO);
+            foreach (var productDiscountCondition in productDiscountConditions)
+            {
+                int conditionProductCount = basketProductsIdList.Count(x => x == productDiscountCondition.ConditionProductId);
+                int discountedProductCount = basketProductsIdList.Count(x => x == productDiscountCondition.DiscountedProductId);
+                var discountedProduct = discountedProductList.First(x => x.Id == productDiscountCondition.DiscountedProductId);
+
+                int amountOfDiscounts = conditionProductCount / productDiscountCondition.ConditionProductsRequired;
+
+                for (int i = 0; i < amountOfDiscounts; i++) 
+                {
+                    if (discountedProductCount > 0)
+                    {
+                        decimal amountToBeDiscounted = discountedProduct.Price * productDiscountCondition.DiscountAmount;
+                        discountDTO.DiscountItemDTOList.Add(new DiscountItemDTO(discountedProduct.Name, amountToBeDiscounted));
+
+                        discountedProductCount--;
+                    }
+                }
+            };
 
             return discountDTO;
-        }
-
-        private void CalculateBreadDiscount(List<int> basketProductsIdList, DiscountDTO discountDTO)
-        {
-            int butterCount = basketProductsIdList.Count(x => x == (int)ProductEnum.Butter);
-            int breadCount = basketProductsIdList.Count(x => x == (int)ProductEnum.Bread);
-            Product bread = _productRepository.LoadProductById((int)ProductEnum.Bread);
-
-            // for every 2 butters, do something
-            for (int i = 2; i <= butterCount; i += 2)
-            {
-                if (breadCount > 0)
-                {
-                    decimal amountToBeDiscounted = bread.Price * breadDiscount;
-
-                    // fill DiscountItemDTOList for logging
-                    DiscountItemDTO discountItemDTO = new DiscountItemDTO(bread.Name, amountToBeDiscounted);
-                    discountDTO.DiscountItemDTOList.Add(discountItemDTO);
-
-                    breadCount--;
-                }
-            }
-        }
-
-        private void CalculateMilkDiscount(List<int> basketProductsIdList, DiscountDTO discountDTO)
-        {
-            int milkCount = basketProductsIdList.Count(x => x == (int)ProductEnum.Milk);
-            Product milk = _productRepository.LoadProductById((int)ProductEnum.Milk);
-
-            // for every 4 milks, do something
-            for (int i = 4; i <= milkCount; i += 4)
-            {
-                decimal amountToBeDiscounted = milk.Price * milkDiscount;
-
-                // fill DiscountItemDTOList for logging
-                DiscountItemDTO discountItemDTO = new DiscountItemDTO(milk.Name, amountToBeDiscounted);
-                discountDTO.DiscountItemDTOList.Add(discountItemDTO);
-            }
         }
     }
 }

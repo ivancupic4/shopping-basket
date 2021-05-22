@@ -20,6 +20,7 @@ namespace ShoppingBasket.Test
             //services mocked for test
             IOptions<WebAppSettings> webAppSettings = Options.Create<WebAppSettings>(new WebAppSettings());
             webAppSettings.Value.DataSourceLocation = "../../../../data_source.txt";
+            webAppSettings.Value.ProductsDiscountLocation = "../../../../products_discount.txt";
             IProductRepository productRepository = new ProductRepository(webAppSettings);
             IDiscountService discountService = new DiscountService(productRepository);
             ILogService logService = new LogService();
@@ -89,7 +90,7 @@ namespace ShoppingBasket.Test
             ProductInsertDTO productInsertDTO = new ProductInsertDTO
             {
                 CurrentBasketProducts = new List<ProductDTO>() { milk, milk, milk },
-                ProductId = 2,
+                ProductId = milk.Id,
                 Amount = 1
             };
 
@@ -139,7 +140,7 @@ namespace ShoppingBasket.Test
             ProductInsertDTO productInsertDTO = new ProductInsertDTO
             {
                 CurrentBasketProducts = new List<ProductDTO>(),
-                ProductId = 2,
+                ProductId = milk.Id,
                 Amount = 1
             };
 

@@ -32,14 +32,12 @@ namespace ShoppingBasket
                 var discountedProduct = discountedProductList.First(x => x.Id == productDiscountCondition.DiscountedProductId);
 
                 int amountOfDiscounts = conditionProductCount / productDiscountCondition.ConditionProductsRequired;
-
                 for (int i = 0; i < amountOfDiscounts; i++) 
                 {
                     if (discountedProductCount > 0)
                     {
                         decimal amountToBeDiscounted = discountedProduct.Price * productDiscountCondition.DiscountAmount;
                         discountDTO.DiscountItemDTOList.Add(new DiscountItemDTO(discountedProduct.Name, amountToBeDiscounted));
-
                         discountedProductCount--;
                     }
                 }

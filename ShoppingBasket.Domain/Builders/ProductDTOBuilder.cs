@@ -11,26 +11,22 @@ namespace ShoppingBasket.Domain.Builders
         public static List<ProductDTO> MapProductsToDTOList(List<Product> productList)
         {
             var productDTOList = new List<ProductDTO>();
-
             foreach (var product in productList)
             {
                 var productDTO = MapProductToDTO(product);
                 productDTOList.Add(productDTO);
             }
-
             return productDTOList;
         }
 
         public static ProductDTO MapProductToDTO(Product product)
         {
-            var productDTO = new ProductDTO()
+            return new ProductDTO()
             {
                 Id = product.Id,
                 Name = product.Name,
                 Price = product.Price
             };
-
-            return productDTO;
         }
     }
 }

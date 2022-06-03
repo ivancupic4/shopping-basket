@@ -55,7 +55,7 @@ namespace ShoppingBasket.Test
         [Test]
         public void Test_AddProduct_Scenario1()
         {
-            ProductInsertDTO productInsertDTO = new ProductInsertDTO
+            var productInsertDTO = new ProductInsertDTO
             {
                 CurrentBasketProducts = new List<ProductDTO>() { butter, milk, bread },
                 ProductId = 0,
@@ -71,7 +71,7 @@ namespace ShoppingBasket.Test
         [Test]
         public void Test_AddProduct_Scenario2()
         {
-            ProductInsertDTO productInsertDTO = new ProductInsertDTO
+            var productInsertDTO = new ProductInsertDTO
             {
                 CurrentBasketProducts = new List<ProductDTO>() { butter, butter, bread, bread },
                 ProductId = 0,
@@ -87,7 +87,7 @@ namespace ShoppingBasket.Test
         [Test]
         public void Test_AddProduct_Scenario3()
         {
-            ProductInsertDTO productInsertDTO = new ProductInsertDTO
+            var productInsertDTO = new ProductInsertDTO
             {
                 CurrentBasketProducts = new List<ProductDTO>() { milk, milk, milk },
                 ProductId = milk.Id,
@@ -103,7 +103,7 @@ namespace ShoppingBasket.Test
         [Test]
         public void Test_AddProduct_Scenario4()
         {
-            ProductInsertDTO productInsertDTO = new ProductInsertDTO
+            var productInsertDTO = new ProductInsertDTO
             {
                 CurrentBasketProducts = new List<ProductDTO>() { butter, butter, bread,
                                                                  milk, milk, milk, milk,
@@ -121,7 +121,7 @@ namespace ShoppingBasket.Test
         [Test]
         public void Test_AddProduct_Scenario5()
         {
-            ProductInsertDTO productInsertDTO = new ProductInsertDTO
+            var productInsertDTO = new ProductInsertDTO
             {
                 CurrentBasketProducts = new List<ProductDTO>(),
                 ProductId = 0,
@@ -137,7 +137,7 @@ namespace ShoppingBasket.Test
         [Test]
         public void Test_AddProduct_Scenario6()
         {
-            ProductInsertDTO productInsertDTO = new ProductInsertDTO
+            var productInsertDTO = new ProductInsertDTO
             {
                 CurrentBasketProducts = new List<ProductDTO>(),
                 ProductId = milk.Id,
@@ -153,7 +153,7 @@ namespace ShoppingBasket.Test
         [Test]
         public void Test_CalculateDiscount_Scenario1()
         {
-            List<int> currentBasketProducts = new List<int>()
+            var currentBasketProducts = new List<int>()
             {
                 butter.Id, butter.Id, butter.Id,
                 milk.Id,
@@ -169,7 +169,7 @@ namespace ShoppingBasket.Test
         [Test]
         public void Test_CalculateDiscount_Scenario2()
         {
-            List<int> currentBasketProducts = new List<int>()
+            var currentBasketProducts = new List<int>()
             {
                 butter.Id, butter.Id, butter.Id,
                 milk.Id, milk.Id, milk.Id, milk.Id,

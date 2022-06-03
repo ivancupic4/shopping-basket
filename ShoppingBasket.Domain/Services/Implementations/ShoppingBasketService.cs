@@ -30,7 +30,6 @@ namespace ShoppingBasket
             if (productInsertDTO.ProductId > 0)
             {
                 var newProductDTO = GetProductById(productInsertDTO.ProductId);
-
                 for (int i = 0; i < productInsertDTO.Amount; i++)
                 {
                     productInsertDTO.CurrentBasketProducts.Add(newProductDTO);
@@ -41,13 +40,12 @@ namespace ShoppingBasket
             var productIdList = productInsertDTO.CurrentBasketProducts.Select(x => x.Id).ToList();
             var discountDTO = _discountService.CalculateDiscount(productIdList);
 
-            BasketDTO basketDTO = new BasketDTO()
+            var basketDTO = new BasketDTO()
             {
                 CurrentBasketProducts = productInsertDTO.CurrentBasketProducts,
                 DiscountDTO = discountDTO,
                 TotalCost = totalSum - discountDTO.TotalDiscount
             };
-
             _logService.LogBasketDetails(basketDTO);
 
             return basketDTO;
@@ -56,17 +54,13 @@ namespace ShoppingBasket
         public ProductDTO GetProductById(int productId)
         {
             var product = _productRepository.LoadProductById(productId);
-            var productDTO = ProductDTOBuilder.MapProductToDTO(product);
-
-            return productDTO;
+            return ProductDTOBuilder.MapProductToDTO(product);
         }
 
         public List<ProductDTO> GetProductsByIdList(List<int> productIdList)
         {
             var allProductsList = _productRepository.LoadProducts(productIdList);
-            var productDTOList = ProductDTOBuilder.MapProductsToDTOList(allProductsList);
-
-            return productDTOList;
+            return ProductDTOBuilder.MapProductsToDTOList(allProductsList);
         }
     }
 }

@@ -14,10 +14,7 @@ namespace ShoppingBasket.Domain.DTO
 
         public decimal TotalDiscount
         {
-            get
-            {
-                return DiscountItemDTOList.Select(x => x.Discount).Sum();
-            }
+            get => DiscountItemDTOList.Select(x => x.Discount).Sum();
         }
     }
 }

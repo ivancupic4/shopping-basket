@@ -32,36 +32,28 @@ namespace ShoppingBasket.DAL
                 allProductsList = JsonConvert.DeserializeObject<List<Product>>(json);
             }
 
-            if (productIdList != null)
+            if (productIdList == null)
+                return allProductsList;
+
+            foreach (var productId in productIdList)
             {
-                foreach (var productId in productIdList)
-                {
-                    selectedProductsList.Add(allProductsList.Single(x => x.Id == productId));
-                }
-
-                return selectedProductsList;
+                selectedProductsList.Add(allProductsList.Single(x => x.Id == productId));
             }
-
-            return allProductsList;
+            return selectedProductsList;
         }
 
         public Product LoadProductById(int id)
-        {
-            var product = LoadProducts().Where(x => x.Id == id).Single();
-            return product;
-        }
+            => LoadProducts().Where(x => x.Id == id).Single();
 
         public List<ProductDiscountConditions> LoadProductDiscountConditions()
         {
             var productDiscountConditions = new List<ProductDiscountConditions>();
-
             string productsDiscountLocation = _webAppSettings.Value.ProductsDiscountLocation;
             using (StreamReader r = new StreamReader(productsDiscountLocation))
             {
                 string json = r.ReadToEnd();
                 productDiscountConditions = JsonConvert.DeserializeObject<List<ProductDiscountConditions>>(json);
             }
-
             return productDiscountConditions;
         }
     }

@@ -10,11 +10,11 @@ namespace ShoppingBasket.Domain.DTO
     {
         public BasketDTO()
         {
-            this.CurrentBasketProducts = new List<ProductDTO>();
+            this.Products = new List<ProductDTO>();
         }
 
-        public decimal TotalCost { get; set; }
-        public DiscountDTO DiscountDTO { get; set; }
-        public List<ProductDTO> CurrentBasketProducts { get; set; }
+        public decimal Cost { get; set; }
+        public DiscountDTO Discount { get; set; }
+        public List<ProductDTO> Products { get; set; }
     }
 }

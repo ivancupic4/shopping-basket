@@ -7,14 +7,14 @@ namespace ShoppingBasket.Domain.DTO
     {
         public DiscountDTO()
         {
-            this.DiscountItemDTOList = new List<DiscountItemDTO>();
+            this.Items = new List<DiscountItemDTO>();
         }
 
-        public List<DiscountItemDTO> DiscountItemDTOList { get; set; }
+        public List<DiscountItemDTO> Items { get; set; }
 
-        public decimal TotalDiscount
+        public decimal Total
         {
-            get => DiscountItemDTOList.Select(x => x.Discount).Sum();
+            get => Items.Select(x => x.Discount).Sum();
         }
     }
 }

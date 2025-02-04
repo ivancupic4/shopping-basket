@@ -17,40 +17,38 @@ namespace ShoppingBasket
         /// Basket details logged to debug output window in Visual Studio
         /// Run selected tests in debug mode (right click on a test -> Debug) to print to console window
         /// </summary>
-        /// <param name="basketDTO">Basket containing current basket products and discount information</param>
-        public void LogBasketDetails(BasketDTO basketDTO)
+        /// <param name="basket">Basket containing current basket products and discount information</param>
+        public void LogBasketDetails(BasketDTO basket)
         {
             System.Diagnostics.Debug.WriteLine("\n\nShopping basket \n");
 
             System.Diagnostics.Debug.WriteLine("Products purchased:");
             System.Diagnostics.Debug.WriteLine("Id" + "\t" + "Product" + "\t" + "Price");
-            foreach (var productDTO in basketDTO.CurrentBasketProducts)
+            foreach (var product in basket.Products)
             {
-                System.Diagnostics.Debug.WriteLine(productDTO.Id + "\t" + productDTO.Name + "\t" + productDTO.Price.ToString("F"));
+                System.Diagnostics.Debug.WriteLine(product.Id + "\t" + product.Name + "\t" + product.Price.ToString("F"));
             }
-            if (basketDTO.CurrentBasketProducts.Count == 0)
+            if (basket.Products.Count == 0)
             {
                 System.Diagnostics.Debug.WriteLine("-\t-\t\t-");
             }
 
-            decimal fullPrice = basketDTO.CurrentBasketProducts.Select(x => x.Price).Sum();
+            decimal fullPrice = basket.Products.Select(x => x.Price).Sum();
             System.Diagnostics.Debug.WriteLine("Full price: " + fullPrice.ToString("F") + "\n");
 
             System.Diagnostics.Debug.WriteLine("Discounts:");
             System.Diagnostics.Debug.WriteLine("Product" + "\t" + "Discount");
-            foreach (var discountItemDTO in basketDTO.DiscountDTO.DiscountItemDTOList)
+            foreach (var discountedItem in basket.Discount.Items)
             {
-                System.Diagnostics.Debug.WriteLine(discountItemDTO.Name + "\t" + discountItemDTO.Discount.ToString("F"));
+                System.Diagnostics.Debug.WriteLine(discountedItem.Name + "\t" + discountedItem.Discount.ToString("F"));
             }
-            if (basketDTO.DiscountDTO.DiscountItemDTOList.Count == 0)
+            if (basket.Discount.Items.Count == 0)
             {
                 System.Diagnostics.Debug.WriteLine("-\t\t-");
             }
 
-            System.Diagnostics.Debug.WriteLine("Total discount: " + basketDTO.DiscountDTO.TotalDiscount.ToString("F") + "\n");
-
-            System.Diagnostics.Debug.WriteLine("Total cost: " + basketDTO.TotalCost.ToString("F"));
-
+            System.Diagnostics.Debug.WriteLine("Total discount: " + basket.Discount.Total.ToString("F") + "\n");
+            System.Diagnostics.Debug.WriteLine("Total cost: " + basket.Cost.ToString("F"));
             System.Diagnostics.Debug.WriteLine("\n\n");
         }
     }

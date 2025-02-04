@@ -7,8 +7,8 @@ namespace ShoppingBasket
 {
     public interface IShoppingBasketService
     {
-        BasketDTO AddProduct(ProductInsertDTO productInsertDTO);
-        List<ProductDTO> GetProductsByIdList(List<int> basketProductsIdList);
+        BasketDTO AddProduct(ProductInsertDTO productInsert);
+        List<ProductDTO> GetProductsByIds(List<int> basketProductsIds);
         ProductDTO GetProductById(int productId);
     }
 }

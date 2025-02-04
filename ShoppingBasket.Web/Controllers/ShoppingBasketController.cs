@@ -31,14 +31,14 @@ namespace ShoppingBasket.Web.Controllers
         [Route("getProductList")]
         public List<ProductDTO> GetProductList([FromBody] List<int> productIdList)
         {
-            return _shoppingBasketService.GetProductsByIdList(productIdList);
+            return _shoppingBasketService.GetProductsByIds(productIdList);
         }
 
         [HttpPost]
         [Route("addProduct")]
-        public void AddProduct([FromBody] ProductInsertDTO productInsertDTO)
+        public void AddProduct([FromBody] ProductInsertDTO insertData)
         {
-            _shoppingBasketService.AddProduct(productInsertDTO);
+            _shoppingBasketService.AddProduct(insertData);
         }
     }
 }

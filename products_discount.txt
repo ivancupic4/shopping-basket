@@ -1,14 +1,14 @@
 [
 	{
 		"ConditionProductId": 1,
-		"ConditionProductsRequired": 2,
+		"NumberOfProductsRequired": 2,
 		"DiscountedProductId": 3,
-		"DiscountAmount": 0.5,
+		"AmountToDiscount": 0.5,
 	},
 	{
 		"ConditionProductId": 2,
-		"ConditionProductsRequired": 3,
+		"NumberOfProductsRequired": 3,
 		"DiscountedProductId": 2,
-		"DiscountAmount": 1.0,
+		"AmountToDiscount": 1.0,
 	},
 ]

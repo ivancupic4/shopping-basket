@@ -7,7 +7,7 @@ namespace ShoppingBasket.DAL.Settings
 {
     public class WebAppSettings
     {
-        public string DataSourceLocation { get; set; }
-        public string ProductsDiscountLocation { get; set; }
+        public string DataSourcePath { get; set; }
+        public string ProductDiscountsPath { get; set; }
     }
 }

@@ -19,8 +19,8 @@ namespace ShoppingBasket.Test
         {
             //services mocked for test
             IOptions<WebAppSettings> webAppSettings = Options.Create<WebAppSettings>(new WebAppSettings());
-            webAppSettings.Value.DataSourceLocation = "../../../../data_source.txt";
-            webAppSettings.Value.ProductsDiscountLocation = "../../../../products_discount.txt";
+            webAppSettings.Value.DataSourcePath = "../../../../data_source.txt";
+            webAppSettings.Value.ProductDiscountsPath = "../../../../products_discount.txt";
             IProductRepository productRepository = new ProductRepository(webAppSettings);
             IDiscountService discountService = new DiscountService(productRepository);
             ILogService logService = new LogService();
@@ -36,26 +36,26 @@ namespace ShoppingBasket.Test
         [Test]
         public void Test_GetProduct_Scenario1()
         {
-            var expectedJson = JsonConvert.SerializeObject(milk);
-            var productJson = JsonConvert.SerializeObject(_shoppingBasketService.GetProductById(milk.Id));
+            var expected = JsonConvert.SerializeObject(milk);
+            var product = JsonConvert.SerializeObject(_shoppingBasketService.GetProductById(milk.Id));
 
-            Assert.AreEqual(expectedJson, productJson);
+            Assert.AreEqual(expected, product);
         }
 
         [Test]
         public void Test_GetProduct_Scenario2()
         {
-            var productIdList = new List<int> { butter.Id, milk.Id, bread.Id };
-            var productListJson = JsonConvert.SerializeObject(_shoppingBasketService.GetProductsByIdList(productIdList));
-            var expectedJson = JsonConvert.SerializeObject(new List<ProductDTO> { butter, milk, bread });
+            var productIds = new List<int> { butter.Id, milk.Id, bread.Id };
+            var productList = JsonConvert.SerializeObject(_shoppingBasketService.GetProductsByIds(productIds));
+            var expected = JsonConvert.SerializeObject(new List<ProductDTO> { butter, milk, bread });
 
-            Assert.AreEqual(expectedJson, productListJson);
+            Assert.AreEqual(expected, productList);
         }
 
         [Test]
         public void Test_AddProduct_Scenario1()
         {
-            var productInsertDTO = new ProductInsertDTO
+            var insertData = new ProductInsertDTO
             {
                 CurrentBasketProducts = new List<ProductDTO>() { butter, milk, bread },
                 ProductId = 0,
@@ -63,15 +63,15 @@ namespace ShoppingBasket.Test
             };
 
             decimal expected = 2.95M;
-            var basketDTO = _shoppingBasketService.AddProduct(productInsertDTO);
+            var basket = _shoppingBasketService.AddProduct(insertData);
 
-            Assert.AreEqual(expected, basketDTO.TotalCost);
+            Assert.AreEqual(expected, basket.Cost);
         }
 
         [Test]
         public void Test_AddProduct_Scenario2()
         {
-            var productInsertDTO = new ProductInsertDTO
+            var insertData = new ProductInsertDTO
             {
                 CurrentBasketProducts = new List<ProductDTO>() { butter, butter, bread, bread },
                 ProductId = 0,
@@ -79,15 +79,15 @@ namespace ShoppingBasket.Test
             };
 
             decimal expected = 3.1M;
-            var basketDTO = _shoppingBasketService.AddProduct(productInsertDTO);
+            var basket = _shoppingBasketService.AddProduct(insertData);
 
-            Assert.AreEqual(expected, basketDTO.TotalCost);
+            Assert.AreEqual(expected, basket.Cost);
         }
 
         [Test]
         public void Test_AddProduct_Scenario3()
         {
-            var productInsertDTO = new ProductInsertDTO
+            var insertData = new ProductInsertDTO
             {
                 CurrentBasketProducts = new List<ProductDTO>() { milk, milk, milk },
                 ProductId = milk.Id,
@@ -95,15 +95,15 @@ namespace ShoppingBasket.Test
             };
 
             decimal expected = 3.45M;
-            var basketDTO = _shoppingBasketService.AddProduct(productInsertDTO);
+            var basket = _shoppingBasketService.AddProduct(insertData);
 
-            Assert.AreEqual(expected, basketDTO.TotalCost);
+            Assert.AreEqual(expected, basket.Cost);
         }
 
         [Test]
         public void Test_AddProduct_Scenario4()
         {
-            var productInsertDTO = new ProductInsertDTO
+            var insertData = new ProductInsertDTO
             {
                 CurrentBasketProducts = new List<ProductDTO>() { butter, butter, bread,
                                                                  milk, milk, milk, milk,
@@ -113,15 +113,15 @@ namespace ShoppingBasket.Test
             };
 
             decimal expected = 9M;
-            var basketDTO = _shoppingBasketService.AddProduct(productInsertDTO);
+            var basket = _shoppingBasketService.AddProduct(insertData);
 
-            Assert.AreEqual(expected, basketDTO.TotalCost);
+            Assert.AreEqual(expected, basket.Cost);
         }
 
         [Test]
         public void Test_AddProduct_Scenario5()
         {
-            var productInsertDTO = new ProductInsertDTO
+            var insertData = new ProductInsertDTO
             {
                 CurrentBasketProducts = new List<ProductDTO>(),
                 ProductId = 0,
@@ -129,15 +129,15 @@ namespace ShoppingBasket.Test
             };
 
             decimal expected = 0M;
-            var basketDTO = _shoppingBasketService.AddProduct(productInsertDTO);
+            var basket = _shoppingBasketService.AddProduct(insertData);
 
-            Assert.AreEqual(expected, basketDTO.TotalCost);
+            Assert.AreEqual(expected, basket.Cost);
         }
 
         [Test]
         public void Test_AddProduct_Scenario6()
         {
-            var productInsertDTO = new ProductInsertDTO
+            var insertData = new ProductInsertDTO
             {
                 CurrentBasketProducts = new List<ProductDTO>(),
                 ProductId = milk.Id,
@@ -145,9 +145,9 @@ namespace ShoppingBasket.Test
             };
 
             decimal expected = 1.15M;
-            var basketDTO = _shoppingBasketService.AddProduct(productInsertDTO);
+            var basket = _shoppingBasketService.AddProduct(insertData);
 
-            Assert.AreEqual(expected, basketDTO.TotalCost);
+            Assert.AreEqual(expected, basket.Cost);
         }
 
         [Test]
@@ -161,9 +161,9 @@ namespace ShoppingBasket.Test
             };
 
             decimal expected = 0.5M;
-            var discountDTO = _discountService.CalculateDiscount(currentBasketProducts);
+            var discount = _discountService.CalculateDiscount(currentBasketProducts);
 
-            Assert.AreEqual(expected, discountDTO.TotalDiscount);
+            Assert.AreEqual(expected, discount.Total);
         }
 
         [Test]
@@ -177,9 +177,9 @@ namespace ShoppingBasket.Test
             };
 
             decimal expected = 1.65M;
-            var discountDTO = _discountService.CalculateDiscount(currentBasketProducts);
+            var discount = _discountService.CalculateDiscount(currentBasketProducts);
 
-            Assert.AreEqual(expected, discountDTO.TotalDiscount);
+            Assert.AreEqual(expected, discount.Total);
         }
     }
 }

@@ -7,6 +7,6 @@ namespace ShoppingBasket
 {
     public interface IDiscountService
     {
-        DiscountDTO CalculateDiscount(List<int> basketProductsIdList);
+        DiscountDTO CalculateDiscount(List<int> basketProductsIds);
     }
 }

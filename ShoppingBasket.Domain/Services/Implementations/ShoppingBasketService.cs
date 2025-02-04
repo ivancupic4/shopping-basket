@@ -25,30 +25,30 @@ namespace ShoppingBasket
             _logService = logService;
         }
 
-        public BasketDTO AddProduct(ProductInsertDTO productInsertDTO)
+        public BasketDTO AddProduct(ProductInsertDTO insertData)
         {
-            if (productInsertDTO.ProductId > 0)
+            if (insertData.ProductId > 0)
             {
-                var newProductDTO = GetProductById(productInsertDTO.ProductId);
-                for (int i = 0; i < productInsertDTO.Amount; i++)
+                var newProduct = GetProductById(insertData.ProductId);
+                for (int i = 0; i < insertData  .Amount; i++)
                 {
-                    productInsertDTO.CurrentBasketProducts.Add(newProductDTO);
+                    insertData.CurrentBasketProducts.Add(newProduct);
                 }
             }
 
-            decimal totalSum = productInsertDTO.CurrentBasketProducts.Select(x => x.Price).Sum();
-            var productIdList = productInsertDTO.CurrentBasketProducts.Select(x => x.Id).ToList();
-            var discountDTO = _discountService.CalculateDiscount(productIdList);
+            decimal totalSum = insertData.CurrentBasketProducts.Select(x => x.Price).Sum();
+            var basketProductIds = insertData.CurrentBasketProducts.Select(x => x.Id).ToList();
+            var discount = _discountService.CalculateDiscount(basketProductIds);
 
-            var basketDTO = new BasketDTO()
+            var basket = new BasketDTO()
             {
-                CurrentBasketProducts = productInsertDTO.CurrentBasketProducts,
-                DiscountDTO = discountDTO,
-                TotalCost = totalSum - discountDTO.TotalDiscount
+                Products = insertData.CurrentBasketProducts,
+                Discount = discount,
+                Cost = totalSum - discount.Total
             };
-            _logService.LogBasketDetails(basketDTO);
+            _logService.LogBasketDetails(basket);
 
-            return basketDTO;
+            return basket;
         }
 
         public ProductDTO GetProductById(int productId)
@@ -57,10 +57,10 @@ namespace ShoppingBasket
             return ProductDTOBuilder.MapProductToDTO(product);
         }
 
-        public List<ProductDTO> GetProductsByIdList(List<int> productIdList)
+        public List<ProductDTO> GetProductsByIds(List<int> productIds)
         {
-            var allProductsList = _productRepository.LoadProducts(productIdList);
-            return ProductDTOBuilder.MapProductsToDTOList(allProductsList);
+            var allProducts = _productRepository.LoadProducts(productIds);
+            return ProductDTOBuilder.MapProductsToDTOList(allProducts);
         }
     }
 }

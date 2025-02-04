@@ -19,31 +19,31 @@ namespace ShoppingBasket
             _productRepository = productRepository;
         }
 
-        public DiscountDTO CalculateDiscount(List<int> basketProductsIdList)
+        public DiscountDTO CalculateDiscount(List<int> productsIds)
         {
-            var discountDTO = new DiscountDTO();
-            var productDiscountConditions = _productRepository.LoadProductDiscountConditions();
-            var discountedProductList = _productRepository.LoadProducts(productDiscountConditions.Select(x => x.DiscountedProductId).ToList());
+            var discount = new DiscountDTO();
+            var discountConditions = _productRepository.LoadProductDiscountConditions();
+            var discountedProducts = _productRepository.LoadProducts(discountConditions.Select(x => x.DiscountedProductId).ToList());
 
-            foreach (var productDiscountCondition in productDiscountConditions)
+            foreach (var discountCondition in discountConditions)
             {
-                int conditionProductCount = basketProductsIdList.Count(x => x == productDiscountCondition.ConditionProductId);
-                int discountedProductCount = basketProductsIdList.Count(x => x == productDiscountCondition.DiscountedProductId);
-                var discountedProduct = discountedProductList.First(x => x.Id == productDiscountCondition.DiscountedProductId);
+                int conditionProductCount = productsIds.Count(x => x == discountCondition.ConditionProductId);
+                int discountedProductCount = productsIds.Count(x => x == discountCondition.DiscountedProductId);
+                var discountedProduct = discountedProducts.First(x => x.Id == discountCondition.DiscountedProductId);
 
-                int amountOfDiscounts = conditionProductCount / productDiscountCondition.ConditionProductsRequired;
+                int amountOfDiscounts = conditionProductCount / discountCondition.NumberOfProductsRequired;
                 for (int i = 0; i < amountOfDiscounts; i++) 
                 {
                     if (discountedProductCount > 0)
                     {
-                        decimal amountToBeDiscounted = discountedProduct.Price * productDiscountCondition.DiscountAmount;
-                        discountDTO.DiscountItemDTOList.Add(new DiscountItemDTO(discountedProduct.Name, amountToBeDiscounted));
+                        decimal amountToBeDiscounted = discountedProduct.Price * discountCondition.AmountToDiscount;
+                        discount.Items.Add(new DiscountItemDTO(discountedProduct.Name, amountToBeDiscounted));
                         discountedProductCount--;
                     }
                 }
             };
 
-            return discountDTO;
+            return discount;
         }
     }
 }

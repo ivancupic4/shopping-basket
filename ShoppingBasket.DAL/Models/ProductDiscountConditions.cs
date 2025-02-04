@@ -9,8 +9,8 @@ namespace ShoppingBasket.DAL.Models
     public class ProductDiscountConditions
     {
         public int ConditionProductId { get; set; }
-        public int ConditionProductsRequired { get; set; }
+        public int NumberOfProductsRequired { get; set; }
         public int DiscountedProductId { get; set; }
-        public decimal DiscountAmount { get; set; }
+        public decimal AmountToDiscount { get; set; }
     }
 }

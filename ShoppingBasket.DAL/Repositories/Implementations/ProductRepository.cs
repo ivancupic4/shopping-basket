@@ -20,26 +20,26 @@ namespace ShoppingBasket.DAL
             _webAppSettings = webAppSettings;
         }
 
-        public List<Product> LoadProducts(List<int> productIdList = null)
+        public List<Product> LoadProducts(List<int> productIds = null)
         {
-            var allProductsList = new List<Product>();
-            var selectedProductsList = new List<Product>();
+            var allProducts = new List<Product>();
+            var selectedProducts = new List<Product>();
 
-            string dataSourceLocation = _webAppSettings.Value.DataSourceLocation;
-            using (StreamReader r = new StreamReader(dataSourceLocation))
+            string dataSourcePath = _webAppSettings.Value.DataSourcePath;
+            using (StreamReader r = new StreamReader(dataSourcePath))
             {
                 string json = r.ReadToEnd();
-                allProductsList = JsonConvert.DeserializeObject<List<Product>>(json);
+                allProducts = JsonConvert.DeserializeObject<List<Product>>(json);
             }
 
-            if (productIdList == null)
-                return allProductsList;
+            if (productIds == null)
+                return allProducts;
 
-            foreach (var productId in productIdList)
+            foreach (var productId in productIds)
             {
-                selectedProductsList.Add(allProductsList.Single(x => x.Id == productId));
+                selectedProducts.Add(allProducts.Single(x => x.Id == productId));
             }
-            return selectedProductsList;
+            return selectedProducts;
         }
 
         public Product LoadProductById(int id)
@@ -47,14 +47,14 @@ namespace ShoppingBasket.DAL
 
         public List<ProductDiscountConditions> LoadProductDiscountConditions()
         {
-            var productDiscountConditions = new List<ProductDiscountConditions>();
-            string productsDiscountLocation = _webAppSettings.Value.ProductsDiscountLocation;
-            using (StreamReader r = new StreamReader(productsDiscountLocation))
+            var discountConditions = new List<ProductDiscountConditions>();
+            string productDiscountsPath = _webAppSettings.Value.ProductDiscountsPath;
+            using (StreamReader r = new StreamReader(productDiscountsPath))
             {
                 string json = r.ReadToEnd();
-                productDiscountConditions = JsonConvert.DeserializeObject<List<ProductDiscountConditions>>(json);
+                discountConditions = JsonConvert.DeserializeObject<List<ProductDiscountConditions>>(json);
             }
-            return productDiscountConditions;
+            return discountConditions;
         }
     }
 }
